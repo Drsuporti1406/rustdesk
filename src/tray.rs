@@ -41,7 +41,11 @@ fn make_tray() -> hbb_common::ResultType<()> {
     {
         icon = include_bytes!("../res/mac-tray-dark-x2.png"); // use as template, so color is not important
     }
-    #[cfg(not(target_os = "macos"))]
+    #[cfg(windows)]
+    {
+        icon = include_bytes!("../src/logo.png");
+    }
+    #[cfg(all(not(target_os = "macos"), not(windows)))]
     {
         icon = include_bytes!("../res/tray-icon.ico");
     }

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="RustDesk" Language="1033" Version="$(var.ProductVersion)" Manufacturer="RustDesk" UpgradeCode="{E3A9B3D6-3C1A-4E6A-8F6C-0123456789AB}">
+    <!-- This project builds an x86_64 Windows binary, so install to Program Files (64-bit). -->
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64"/>
+
+    <MajorUpgrade
+      DowngradeErrorMessage="A newer version of RustDesk is already installed."
+      AllowSameVersionUpgrades="yes"
+      Schedule="afterInstallInitialize"
+    />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
+
+    <!-- Add application icon for ARP + shortcuts (packaging/windows/package/icon.ico). -->
+    <Icon Id="AppIcon" SourceFile="package\icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+
+    <!-- Install RustDesk Windows service automatically so the host stays online when the UI window is closed. -->
+    <CustomAction
+      Id="ca_install_service"
+      FileKey="fil_rustdesk_exe"
+      ExeCommand="--install-service"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no"
+    />
+    <CustomAction
+      Id="ca_uninstall_service"
+      FileKey="fil_rustdesk_exe"
+      ExeCommand="--uninstall-service"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no"
+    />
+
+    <InstallExecuteSequence>
+      <!-- Run after files are present; on upgrades this runs after old version removal. -->
+      <Custom Action="ca_install_service" After="InstallFiles">NOT Installed</Custom>
+      <Custom Action="ca_uninstall_service" Before="RemoveFiles">REMOVE="ALL"</Custom>
+    </InstallExecuteSequence>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="RustDesk">
+          <Directory Id="UIFOLDER" Name="ui"/>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="RustDesk"/>
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="cmp_rustdesk_exe" Guid="{11111111-1111-1111-1111-111111111111}" Win64="yes">
+        <File Id="fil_rustdesk_exe" Source="package\rustdesk.exe" KeyPath="yes"/>
+      </Component>
+      <Component Id="cmp_sciter" Guid="{22222222-2222-2222-2222-222222222222}" Win64="yes">
+        <File Id="fil_sciter" Source="package\sciter.dll" KeyPath="no"/>
+      </Component>
+      <!-- Mark as installed for RustDesk's Windows install detection -->
+      <Component Id="cmp_install_location" Guid="*" Win64="yes">
+        <RegistryValue Root="HKLM"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\RustDesk"
+                       Name="InstallLocation"
+                       Type="string"
+                       Value="[INSTALLFOLDER]"
+                       KeyPath="yes"/>
+      </Component>
+      <!-- Additional package files (place in package/) will be picked up by manual edits -->
+    </DirectoryRef>
+
+    <DirectoryRef Id="UIFOLDER">
+      <!-- WiX v3: Component Guid="*" cannot be used with multiple unversioned files. -->
+      <Component Id="cmp_ui_index_html" Guid="*" Win64="yes"><File Id="fil_ui_index_html" Source="package\ui\index.html" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_install_html" Guid="*" Win64="yes"><File Id="fil_ui_install_html" Source="package\ui\install.html" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_cm_html" Guid="*" Win64="yes"><File Id="fil_ui_cm_html" Source="package\ui\cm.html" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_remote_html" Guid="*" Win64="yes"><File Id="fil_ui_remote_html" Source="package\ui\remote.html" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_chatbox_html" Guid="*" Win64="yes"><File Id="fil_ui_chatbox_html" Source="package\ui\chatbox.html" KeyPath="yes"/></Component>
+
+      <Component Id="cmp_ui_index_css" Guid="*" Win64="yes"><File Id="fil_ui_index_css" Source="package\ui\index.css" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_common_css" Guid="*" Win64="yes"><File Id="fil_ui_common_css" Source="package\ui\common.css" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_cm_css" Guid="*" Win64="yes"><File Id="fil_ui_cm_css" Source="package\ui\cm.css" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_header_css" Guid="*" Win64="yes"><File Id="fil_ui_header_css" Source="package\ui\header.css" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_remote_css" Guid="*" Win64="yes"><File Id="fil_ui_remote_css" Source="package\ui\remote.css" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_file_transfer_css" Guid="*" Win64="yes"><File Id="fil_ui_file_transfer_css" Source="package\ui\file_transfer.css" KeyPath="yes"/></Component>
+
+      <Component Id="cmp_ui_index_tis" Guid="*" Win64="yes"><File Id="fil_ui_index_tis" Source="package\ui\index.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_common_tis" Guid="*" Win64="yes"><File Id="fil_ui_common_tis" Source="package\ui\common.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_ab_tis" Guid="*" Win64="yes"><File Id="fil_ui_ab_tis" Source="package\ui\ab.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_cm_tis" Guid="*" Win64="yes"><File Id="fil_ui_cm_tis" Source="package\ui\cm.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_header_tis" Guid="*" Win64="yes"><File Id="fil_ui_header_tis" Source="package\ui\header.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_remote_tis" Guid="*" Win64="yes"><File Id="fil_ui_remote_tis" Source="package\ui\remote.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_file_transfer_tis" Guid="*" Win64="yes"><File Id="fil_ui_file_transfer_tis" Source="package\ui\file_transfer.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_install_tis" Guid="*" Win64="yes"><File Id="fil_ui_install_tis" Source="package\ui\install.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_msgbox_tis" Guid="*" Win64="yes"><File Id="fil_ui_msgbox_tis" Source="package\ui\msgbox.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_port_forward_tis" Guid="*" Win64="yes"><File Id="fil_ui_port_forward_tis" Source="package\ui\port_forward.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_printer_tis" Guid="*" Win64="yes"><File Id="fil_ui_printer_tis" Source="package\ui\printer.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_grid_tis" Guid="*" Win64="yes"><File Id="fil_ui_grid_tis" Source="package\ui\grid.tis" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_logo_png" Guid="*" Win64="yes"><File Id="fil_ui_logo_png" Source="package\ui\logo.png" KeyPath="yes"/></Component>
+      <Component Id="cmp_ui_logo_preta_png" Guid="*" Win64="yes"><File Id="fil_ui_logo_preta_png" Source="package\ui\logo_preta.png" KeyPath="yes"/></Component>
+    </DirectoryRef>
+
+    <!-- Shortcut in Start Menu -->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="cmp_shortcut" Guid="{33333333-3333-3333-3333-333333333333}" Win64="yes">
+        <CreateFolder />
+        <Shortcut Id="StartMenuRustDesk" Name="RustDesk" Description="RustDesk Remote Desktop" Target="[INSTALLFOLDER]rustdesk.exe" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon"/>
+        <RemoveFolder Id="RemoveStartMenuFolder" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\RustDesk" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="DefaultFeature" Level="1">
+      <ComponentRef Id="cmp_rustdesk_exe" />
+      <ComponentRef Id="cmp_sciter" />
+      <ComponentRef Id="cmp_install_location" />
+      <ComponentRef Id="cmp_ui_index_html" />
+      <ComponentRef Id="cmp_ui_install_html" />
+      <ComponentRef Id="cmp_ui_cm_html" />
+      <ComponentRef Id="cmp_ui_remote_html" />
+      <ComponentRef Id="cmp_ui_chatbox_html" />
+      <ComponentRef Id="cmp_ui_index_css" />
+      <ComponentRef Id="cmp_ui_common_css" />
+      <ComponentRef Id="cmp_ui_cm_css" />
+      <ComponentRef Id="cmp_ui_header_css" />
+      <ComponentRef Id="cmp_ui_remote_css" />
+      <ComponentRef Id="cmp_ui_file_transfer_css" />
+      <ComponentRef Id="cmp_ui_index_tis" />
+      <ComponentRef Id="cmp_ui_common_tis" />
+      <ComponentRef Id="cmp_ui_ab_tis" />
+      <ComponentRef Id="cmp_ui_cm_tis" />
+      <ComponentRef Id="cmp_ui_header_tis" />
+      <ComponentRef Id="cmp_ui_remote_tis" />
+      <ComponentRef Id="cmp_ui_file_transfer_tis" />
+      <ComponentRef Id="cmp_ui_install_tis" />
+      <ComponentRef Id="cmp_ui_msgbox_tis" />
+      <ComponentRef Id="cmp_ui_port_forward_tis" />
+      <ComponentRef Id="cmp_ui_printer_tis" />
+      <ComponentRef Id="cmp_ui_grid_tis" />
+      <ComponentRef Id="cmp_ui_logo_png" />
+      <ComponentRef Id="cmp_ui_logo_preta_png" />
+      <ComponentRef Id="cmp_shortcut" />
+    </Feature>
+
+  </Product>
+</Wix>

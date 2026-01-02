@@ -1,0 +1,4 @@
+launcher exe: C:\github\rustdesk\tools\launcher\target\release\rustdesk_launcher.exe
+target runtime: C:\github\rustdesk\tools\launcher\target\release\rustdesk.exe
+working_dir: C:\github\rustdesk
+ANGLE_DEFAULT_PLATFORM=swiftshader

@@ -1,7 +1,7 @@
 include "sciter:reactor.tis";
 
 var handler = $(#handler) || view;
-try { view.windowIcon = self.url(handler.get_icon()); } catch(e) {}
+try { view.windowIcon = self.url("logo.png") || self.url(handler.get_icon()); } catch(e) {}
 var OS = view.mediaVar("platform");
 var is_osx = OS == "OSX";
 var is_win = OS == "Windows";
@@ -104,8 +104,10 @@ function setWindowButontsAndIcon(only_min=false) {
             <button.window tabindex="-1" role="window-close" #close><div /></button>
         </div>);
     }
+    var icon_url = self.url("logo.png");
+    if (!icon_url) icon_url = handler.get_icon();
     $(div.window-icon>icon).style.set {
-        "background-image": "url('" + handler.get_icon() + "')",
+        "background-image": "url('" + icon_url + "')",
     };
 }
 

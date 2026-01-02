@@ -16,6 +16,15 @@ body {
     font-size: 1.4em;
 }
 
+.brand-logo {
+    width: *;
+    margin-bottom: 12px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain;
+}
+
 .app {
     flow: horizontal;
     size: *;

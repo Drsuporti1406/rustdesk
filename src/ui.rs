@@ -84,7 +84,7 @@ pub fn start(args: &mut [String]) {
     let mut frame = sciter::WindowBuilder::main_window().create();
     #[cfg(windows)]
     allow_err!(sciter::set_options(sciter::RuntimeOptions::UxTheming(true)));
-    frame.set_title(&crate::get_app_name());
+    frame.set_title("DrSuporti Remote");
     #[cfg(target_os = "macos")]
     crate::platform::delegate::make_menubar(frame.get_host(), args.is_empty());
     #[cfg(windows)]
@@ -176,13 +176,32 @@ pub fn start(args: &mut [String]) {
         frame.load_html(html.as_bytes(), Some(page));
     }
     #[cfg(not(feature = "inline"))]
-    frame.load_file(&format!(
-        "file://{}/src/ui/{}",
-        std::env::current_dir()
-            .map(|c| c.display().to_string())
-            .unwrap_or("".to_owned()),
-        page
-    ));
+    {
+        let mut candidates: Vec<std::path::PathBuf> = Vec::with_capacity(3);
+        if let Ok(exe) = std::env::current_exe() {
+            if let Some(parent) = exe.parent() {
+                candidates.push(parent.join("ui").join(page));
+            }
+        }
+        if let Ok(cwd) = std::env::current_dir() {
+            candidates.push(cwd.join("ui").join(page));
+            candidates.push(cwd.join("src").join("ui").join(page));
+        }
+        let Some(path) = candidates.into_iter().find(|p| p.exists()) else {
+            log::error!("UI file not found: {}", page);
+            return;
+        };
+        let path = path.canonicalize().unwrap_or(path);
+        let path_str = path.to_string_lossy().to_string();
+        log::debug!("Loading UI from: {}", path_str);
+
+        // Prefer raw filesystem path to avoid URL encoding issues (e.g. Program Files).
+        frame.load_file(&path_str);
+
+        // Fallback: explicit file URI if a build of Sciter expects it.
+        let uri = format!("file:///{}", path_str.replace('\\', "/"));
+        frame.load_file(&uri);
+    }
     let hide_cm = *cm::HIDE_CM.lock().unwrap();
     if !args.is_empty() && args[0] == "--cm" && hide_cm {
         // run_app calls expand(show) + run_loop, we use collapse(hide) + run_loop instead to create a hidden window
