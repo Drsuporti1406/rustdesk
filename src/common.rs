@@ -985,7 +985,76 @@ pub fn is_rustdesk() -> bool {
 
 #[inline]
 pub fn get_uri_prefix() -> String {
-    format!("{}://", get_app_name().to_lowercase())
+    // Keep URI scheme stable across rebrands; the public deep-link scheme is `rustdesk://`.
+    // (APP_NAME may contain spaces or change over time.)
+    "rustdesk://".to_owned()
+}
+
+pub fn url_scheme_to_cmd_args(url: &str) -> Option<Vec<String>> {
+    let prefix = crate::get_uri_prefix();
+    if !url.starts_with(&prefix) {
+        return None;
+    }
+    let uri = url::Url::parse(url).ok()?;
+    let authority = uri.host_str().unwrap_or_default();
+    let path = uri.path();
+
+    let mut command: Option<&'static str> = None;
+    let mut id: Option<String> = None;
+
+    if authority == "connection" && path.starts_with("/new/") {
+        command = Some("--connect");
+        id = Some(path.trim_start_matches("/new/").to_owned());
+    } else if authority.len() > 2
+        && (path.is_empty() || path == "/" || path == "/r" || path.starts_with("/r@"))
+    {
+        command = Some("--connect");
+        let mut full = authority.to_owned();
+        if !path.is_empty() && path != "/" {
+            full.push_str(path);
+        }
+        id = Some(full);
+    }
+
+    let mut id = id?;
+    let mut args: Vec<String> = Vec::new();
+    args.push(command?.to_owned());
+
+    let mut key: Option<String> = None;
+    let mut password: Option<String> = None;
+    let mut relay = false;
+    let mut switch_uuid: Option<String> = None;
+    for (k, v) in uri.query_pairs() {
+        let k = k.to_ascii_lowercase();
+        match k.as_str() {
+            "key" => key = Some(v.to_string()),
+            "password" => password = Some(v.to_string()),
+            "relay" => relay = true,
+            "switch_uuid" => switch_uuid = Some(v.to_string()),
+            _ => {}
+        }
+    }
+    if let Some(k) = key {
+        id = format!("{id}?key={k}");
+    }
+
+    args.push(id);
+    // Sciter UI expects the password as a positional arg (3rd), not as `--password`.
+    if let Some(p) = password {
+        if !p.is_empty() {
+            args.push(p);
+        }
+    }
+    if let Some(uuid) = switch_uuid {
+        if !uuid.is_empty() {
+            args.push("--switch_uuid".to_owned());
+            args.push(uuid);
+        }
+    }
+    if relay {
+        args.push("--relay".to_owned());
+    }
+    Some(args)
 }
 
 #[cfg(target_os = "macos")]

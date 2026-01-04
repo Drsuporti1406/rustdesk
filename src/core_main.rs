@@ -79,6 +79,12 @@ pub fn core_main() -> Option<Vec<String>> {
         }
         i += 1;
     }
+    if args.len() > 0 {
+        if let Some(mut mapped) = crate::common::url_scheme_to_cmd_args(&args[0]) {
+            args.clear();
+            args.append(&mut mapped);
+        }
+    }
     #[cfg(any(target_os = "linux", target_os = "windows"))]
     if args.is_empty() {
         #[cfg(target_os = "linux")]
@@ -158,6 +164,24 @@ pub fn core_main() -> Option<Vec<String>> {
     #[cfg(all(target_os = "linux", feature = "flutter"))]
     if args.len() > 0 && args[0].starts_with(&crate::get_uri_prefix()) {
         return try_send_by_dbus(args[0].clone());
+    }
+
+    // Windows URL scheme handler (rustdesk://...). If an instance is already running,
+    // forward the URL to it and exit; otherwise continue boot so Flutter can handle argv.
+    #[cfg(all(target_os = "windows", feature = "flutter"))]
+    if args.len() > 0 && args[0].starts_with(&crate::get_uri_prefix()) {
+        use crate::platform;
+        use winapi::um::winuser::WM_USER;
+        let _sent = platform::send_message_to_hnwd(
+            &platform::FLUTTER_RUNNER_WIN32_WINDOW_CLASS,
+            &crate::get_app_name(),
+            (WM_USER + 2) as _, // referred from uni_links_desktop
+            args[0].as_str(),
+            false,
+        );
+        if _sent {
+            return None;
+        }
     }
 
     #[cfg(windows)]

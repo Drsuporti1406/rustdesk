@@ -1258,7 +1258,16 @@ fn get_install_info_with_subkey(subkey: String) -> (String, String, String, Stri
         "%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\{}",
         crate::get_app_name()
     );
-    let exe = format!("{}\\{}.exe", path, crate::get_app_name());
+    let exe_name = std::env::current_exe()
+        .ok()
+        .and_then(|p| p.file_name().map(|f| f.to_string_lossy().to_string()))
+        .unwrap_or_else(|| format!("{}.exe", crate::get_app_name()));
+    let exe_candidate = format!("{}\\{}", path, exe_name);
+    let exe = if std::path::Path::new(&exe_candidate).exists() {
+        exe_candidate
+    } else {
+        format!("{}\\{}.exe", path, crate::get_app_name())
+    };
     (subkey, path, start_menu, exe)
 }
 
@@ -2886,15 +2895,17 @@ fn get_import_config(exe: &str) -> String {
     if config::is_outgoing_only() {
         return "".to_string();
     }
+    let service_name = crate::get_app_name().replace(' ', "");
     format!("
-sc stop {app_name}
-sc delete {app_name}
-sc create {app_name} binpath= \"\\\"{exe}\\\" --import-config \\\"{config_path}\\\"\" start= auto DisplayName= \"{app_name} Service\"
-sc start {app_name}
-sc stop {app_name}
-sc delete {app_name}
+sc stop {service_name}
+sc delete {service_name}
+sc create {service_name} binpath= \"\\\"{exe}\\\" --import-config \\\"{config_path}\\\"\" start= auto DisplayName= \"{app_name} Service\"
+sc start {service_name}
+sc stop {service_name}
+sc delete {service_name}
 ",
     app_name = crate::get_app_name(),
+    service_name = service_name,
     config_path=Config::file().to_str().unwrap_or(""),
 )
 }
@@ -2909,9 +2920,10 @@ fn get_create_service(exe: &str) -> String {
 if exist \"%PROGRAMDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\{app_name} Tray.lnk\" del /f /q \"%PROGRAMDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\{app_name} Tray.lnk\"
 ", app_name = crate::get_app_name())
     } else {
+        let service_name = crate::get_app_name().replace(' ', "");
         format!("
-sc create {app_name} binpath= \"\\\"{exe}\\\" --service\" start= auto DisplayName= \"{app_name} Service\"
-sc start {app_name}
+sc create {service_name} binpath= \"\\\"{exe}\\\" --service\" start= auto DisplayName= \"{app_name} Service\"
+sc start {service_name}
 ",
     app_name = crate::get_app_name())
     }

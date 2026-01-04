@@ -161,9 +161,28 @@ try {
   if (-not $light) { throw "light.exe (WiX) not found in PATH" }
   # Force x64 MSI so ProgramFiles64Folder is honored on 64-bit Windows.
   & candle.exe -arch x64 Product.wxs "-dProductVersion=$productVersion" -out Product.wixobj | Tee-Object -FilePath candle_output.txt | Out-Null
-  & light.exe Product.wixobj -out (Join-Path $outDir 'RustDesk.msi') | Tee-Object -FilePath light_output.txt | Out-Null
+  if ($LASTEXITCODE -ne 0) { throw "candle.exe failed with exit code $LASTEXITCODE. See: $(Join-Path $PSScriptRoot 'candle_output.txt')" }
+
+  # Build to a temporary name first to avoid file-in-use issues, then replace the final MSI.
+  $msiFinal = (Join-Path $outDir 'DrSuportiRemote.msi')
+  $msiTmp = (Join-Path $outDir 'DrSuportiRemote.tmp.msi')
+  Remove-Item -Force -ErrorAction SilentlyContinue $msiTmp
+
+  & light.exe Product.wixobj -out $msiTmp | Tee-Object -FilePath light_output.txt | Out-Null
+  if ($LASTEXITCODE -ne 0) { throw "light.exe failed with exit code $LASTEXITCODE. See: $(Join-Path $PSScriptRoot 'light_output.txt')" }
+
+  try {
+    if (Test-Path $msiFinal) {
+      Remove-Item -Force $msiFinal
+    }
+    Move-Item -Force $msiTmp $msiFinal
+  } catch {
+    $msiVersioned = (Join-Path $outDir ("DrSuportiRemote-{0}.msi" -f $productVersion))
+    Move-Item -Force $msiTmp $msiVersioned
+    throw "Failed to replace existing MSI at $msiFinal (it may be in use). A versioned MSI was written to: $msiVersioned"
+  }
 } finally {
   Pop-Location
 }
 
-Write-Host ("MSI generated: {0}" -f (Join-Path $outDir 'RustDesk.msi'))
+Write-Host ("MSI generated: {0}" -f (Join-Path $outDir 'DrSuportiRemote.msi'))

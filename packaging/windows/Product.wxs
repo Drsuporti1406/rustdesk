@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="RustDesk" Language="1033" Version="$(var.ProductVersion)" Manufacturer="RustDesk" UpgradeCode="{E3A9B3D6-3C1A-4E6A-8F6C-0123456789AB}">
+  <Product Id="*" Name="DrSuporti Remote" Language="1033" Version="$(var.ProductVersion)" Manufacturer="DrSuporti" UpgradeCode="{E3A9B3D6-3C1A-4E6A-8F6C-0123456789AB}">
     <!-- This project builds an x86_64 Windows binary, so install to Program Files (64-bit). -->
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64"/>
 
     <MajorUpgrade
-      DowngradeErrorMessage="A newer version of RustDesk is already installed."
+      DowngradeErrorMessage="A newer version of DrSuporti Remote is already installed."
       AllowSameVersionUpgrades="yes"
       Schedule="afterInstallInitialize"
     />
@@ -16,7 +16,7 @@
     <Icon Id="AppIcon" SourceFile="package\icon.ico" />
     <Property Id="ARPPRODUCTICON" Value="AppIcon" />
 
-    <!-- Install RustDesk Windows service automatically so the host stays online when the UI window is closed. -->
+    <!-- Install DrSuporti Remote Windows service automatically so the host stays online when the UI window is closed. -->
     <CustomAction
       Id="ca_install_service"
       FileKey="fil_rustdesk_exe"
@@ -42,12 +42,12 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFiles64Folder">
-        <Directory Id="INSTALLFOLDER" Name="RustDesk">
+        <Directory Id="INSTALLFOLDER" Name="DrSuporti Remote">
           <Directory Id="UIFOLDER" Name="ui"/>
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
-        <Directory Id="ApplicationProgramsFolder" Name="RustDesk"/>
+        <Directory Id="ApplicationProgramsFolder" Name="DrSuporti Remote"/>
       </Directory>
     </Directory>
 
@@ -58,10 +58,32 @@
       <Component Id="cmp_sciter" Guid="{22222222-2222-2222-2222-222222222222}" Win64="yes">
         <File Id="fil_sciter" Source="package\sciter.dll" KeyPath="no"/>
       </Component>
-      <!-- Mark as installed for RustDesk's Windows install detection -->
+      <!-- Register rustdesk:// URI protocol handler (per-machine) -->
+      <Component Id="cmp_uri_protocol_rustdesk" Guid="{44444444-4444-4444-4444-444444444444}" Win64="yes">
+        <RegistryValue Root="HKLM"
+                       Key="Software\Classes\rustdesk"
+                       Type="string"
+                       Value="URL:RustDesk Protocol"
+                       KeyPath="yes"/>
+        <!-- Value must exist; content is ignored by Windows -->
+        <RegistryValue Root="HKLM"
+                       Key="Software\Classes\rustdesk"
+                       Name="URL Protocol"
+                       Type="string"
+                       Value="1"/>
+        <RegistryValue Root="HKLM"
+                       Key="Software\Classes\rustdesk\DefaultIcon"
+                       Type="string"
+                       Value="&quot;[INSTALLFOLDER]rustdesk.exe&quot;,0"/>
+        <RegistryValue Root="HKLM"
+                       Key="Software\Classes\rustdesk\shell\open\command"
+                       Type="string"
+                       Value="&quot;[INSTALLFOLDER]rustdesk.exe&quot; &quot;%1&quot;"/>
+      </Component>
+      <!-- Mark as installed for DrSuporti Remote's Windows install detection -->
       <Component Id="cmp_install_location" Guid="*" Win64="yes">
         <RegistryValue Root="HKLM"
-                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\RustDesk"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuportiRemote"
                        Name="InstallLocation"
                        Type="string"
                        Value="[INSTALLFOLDER]"
@@ -105,7 +127,7 @@
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="cmp_shortcut" Guid="{33333333-3333-3333-3333-333333333333}" Win64="yes">
         <CreateFolder />
-        <Shortcut Id="StartMenuRustDesk" Name="RustDesk" Description="RustDesk Remote Desktop" Target="[INSTALLFOLDER]rustdesk.exe" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon"/>
+        <Shortcut Id="StartMenuRustDesk" Name="DrSuporti Remote" Description="DrSuporti Remote" Target="[INSTALLFOLDER]rustdesk.exe" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon"/>
         <RemoveFolder Id="RemoveStartMenuFolder" Directory="ApplicationProgramsFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\RustDesk" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
@@ -114,6 +136,7 @@
     <Feature Id="DefaultFeature" Level="1">
       <ComponentRef Id="cmp_rustdesk_exe" />
       <ComponentRef Id="cmp_sciter" />
+      <ComponentRef Id="cmp_uri_protocol_rustdesk" />
       <ComponentRef Id="cmp_install_location" />
       <ComponentRef Id="cmp_ui_index_html" />
       <ComponentRef Id="cmp_ui_install_html" />
