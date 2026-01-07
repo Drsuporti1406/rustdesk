@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Bundle Name="DrSuporti Remote"
+          Version="$(var.ProductVersion)"
+          Manufacturer="DrSuporti"
+          UpgradeCode="{5A4A1E1C-2D2B-4D0D-8F79-0123456789AB}">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication
+        LicenseFile="license.rtf"
+        ShowVersion="yes"
+        SuppressOptionsUI="yes" />
+    </BootstrapperApplicationRef>
+
+    <Chain>
+      <ExePackage Id="VCRedist"
+                  SourceFile="$(var.VcRedistPath)"
+                  InstallCommand="/install /quiet /norestart"
+                  DetectCondition="VCREDISTX64INSTALLED"
+                  PerMachine="yes"
+                  Vital="yes" />
+      <MsiPackage SourceFile="$(var.MsiPath)"
+                  DisplayInternalUI="no"
+                  Vital="yes" />
+    </Chain>
+  </Bundle>
+
+  <Fragment>
+    <util:RegistrySearch
+      Id="VCREDISTX64INSTALLED"
+      Root="HKLM"
+      Key="SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64"
+      Value="Installed"
+      Variable="VCREDISTX64INSTALLED"
+      Result="value" />
+  </Fragment>
+</Wix>

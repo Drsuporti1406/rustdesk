@@ -20,7 +20,7 @@
     <CustomAction
       Id="ca_install_service"
       FileKey="fil_rustdesk_exe"
-      ExeCommand="--install-service"
+      ExeCommand="--install-service --silent"
       Execute="deferred"
       Return="check"
       Impersonate="no"
@@ -83,11 +83,16 @@
       <!-- Mark as installed for DrSuporti Remote's Windows install detection -->
       <Component Id="cmp_install_location" Guid="*" Win64="yes">
         <RegistryValue Root="HKLM"
-                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuportiRemote"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
                        Name="InstallLocation"
                        Type="string"
                        Value="[INSTALLFOLDER]"
                        KeyPath="yes"/>
+        <RegistryValue Root="HKLM"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
+                       Name="BuildDate"
+                       Type="string"
+                       Value="$(var.BuildDate)"/>
       </Component>
       <!-- Additional package files (place in package/) will be picked up by manual edits -->
     </DirectoryRef>

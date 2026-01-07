@@ -1,0 +1,1674 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CENTRO CARDIO</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <style>
+        /* Variáveis de cores */
+        :root {
+            --primary-color: #263545; /* Azul escuro para header e sidebar */
+            --secondary-color: #fcb54d; /* Verde para botões */
+            --active-button-color: #798da2; /* Cinza para botão ativo */
+            --background-color: #f5f5f5; /* Cinza claro de fundo */
+            --text-color: #333;
+            --white: #fff;
+            --gray-light: #eee;
+        }
+
+        /* Estilo base */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Estilo da Header */
+        .header {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 20px 40px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-title {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Container principal com sidebar e conteúdo */
+        .main-container {
+            display: flex;
+            flex-grow: 1;
+        }
+
+        /* Estilo da Sidebar (Barra Lateral) */
+        .sidebar {
+            width: 250px;
+            background-color: var(--white);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid #ddd;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-header {
+            width: 100%;
+            text-align: left;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header p {
+            margin: 0;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .menu-v2 {
+            width: 100%;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu-button {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: var(--white);
+        }
+
+        .menu-button.active {
+            background-color: var(--active-button-color);
+        }
+
+        .menu-button:not(.active) {
+            background-color: var(--secondary-color);
+        }
+
+        .menu-button:hover:not(.active) {
+            background-color: #20a074;
+        }
+        
+        /* Estilos dos ícones (simulados) */
+        .icon {
+            width: 20px;
+            height: 20px;
+            background-color: var(--white);
+            mask-repeat: no-repeat;
+            mask-position: center;
+            mask-size: contain;
+            margin-right: 10px;
+        }
+
+        .ticket-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M22 10a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2zM4 10h16v4H4z"/></svg>'); }
+        .info-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>'); }
+        .download-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18h14v2H5z"/></svg>'); }
+        .chat-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>'); }
+        
+        .qr-code-v2 {
+            margin-top: auto;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .qr-code-v2 img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .version-v2 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Estilo da Área de Conteúdo */
+        .content {
+            flex-grow: 1;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .table-container {
+            flex-grow: 1;
+            background-color: var(--white);
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        th {
+            background-color: var(--white);
+            font-weight: 600;
+            color: var(--text-color);
+            position: sticky;
+            top: 0;
+        }
+        
+        .refresh-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #666;
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>');
+            mask-repeat: no-repeat;
+            mask-size: contain;
+            vertical-align: middle;
+        }
+        
+        .new-ticket-button {
+            text-align: right;
+        }
+
+        .new-ticket-button button {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .new-ticket-button button:hover {
+            background-color: #20a074;
+        }
+
+        /* Estilos do Modal */
+        .modal {
+            display: none; /* Escondido por padrão */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 0;
+            width: 500px;
+            max-width: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+
+        @keyframes animatetop {
+            from {top: -300px; opacity: 0}
+            to {top: 0; opacity: 1}
+        }
+
+        .modal-header {
+            background-color: #0d47a1;
+            color: white;
+            padding: 15px 20px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .close-button {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        .modal-form {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-form label {
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .modal-form label span {
+            color: red;
+        }
+
+        .modal-form input,
+        .modal-form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .anexo {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .anexo-filename {
+            font-style: italic;
+            color: #0d47a1;
+            font-weight: bold;
+        }
+
+        .icon-clip {
+            width: 20px;
+            height: 20px;
+            background-color: #888;
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 6c2.8 0 5 2.2 5 5s-2.2 5-5 5H8c-2.8 0-5-2.2-5-5s2.2-5 5-5h8.5v2H8c-1.7 0-3 1.3-3 3s1.3 3 3 3h8.5c1.7 0 3-1.3 3-3s-1.3-3-3-3H8V4h8.5z"/></svg>');
+            mask-repeat: no-repeat;
+            mask-size: contain;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .cancel-button {
+            background-color: #888;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .send-button {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .send-button:hover {
+            background-color: #20a074;
+        }
+
+        /* --- Estilos para os novos modais --- */
+        .modal-content-small {
+            background-color: var(--white);
+            padding: 30px;
+            width: 300px;
+            max-width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Estilo do Loading */
+        .loading-modal-content {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .loader {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Estilo de Sucesso */
+        .success-modal-content {
+            background-color: #e8f5e9;
+            border: 2px solid #4caf50;
+            color: var(--text-color);
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            color: #4caf50;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .success-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4caf50;
+            margin: 0;
+        }
+
+        /* Estilo de Erro */
+        .error-modal-content {
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+            color: var(--text-color);
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            color: #f44336;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .error-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f44336;
+            margin: 0;
+        }
+
+        .modal-close-btn {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .modal-close-btn:hover {
+            background-color: #20a074;
+        }
+
+        /* Estilo para o novo campo de seleção (dropdown) */
+        .modal-form select {
+            width: 100%; /* Ajusta a largura para 100% do contêiner */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box; /* Garante que padding e border não aumentem a largura total */
+            appearance: none; /* Remove a seta padrão do navegador */
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center / 18px; /* Adiciona uma seta personalizada */
+        }
+
+        /* Estilo para focar no campo */
+        .modal-form select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        /* Novo estilo para a caixa de contato */
+        .user-info {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            display: none; /* Escondido por padrão */
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .user-info p {
+            margin: 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        .user-info .user-name {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        
+        .user-info-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-info-actions .alterar-button {
+            background-color: #fff;
+            color: #0d47a1;
+            border: 1px solid #0d47a1;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .user-info-actions .alterar-button:hover {
+            background-color: #0d47a1;
+            color: #fff;
+        }
+        
+        .user-info-actions span {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Inline input error styling */
+        .input-error {
+            color: #f44336;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .input-invalid {
+            border: 2px solid #f44336 !important;
+            box-shadow: 0 0 0 3px rgba(244,67,54,0.06);
+        }
+
+        /* Estilos para o Modal de Pesquisa de Satisfação */
+        #satisfactionModal .modal-content {
+            width: 450px; /* Um pouco menor */
+        }
+
+        .satisfaction-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .satisfaction-body h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .ticket-context {
+            background-color: var(--gray-light);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .rating-section {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .rating-section p {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .stars-container button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 2.5rem; /* Tamanho da estrela */
+            color: #ccc; /* Estrela cinza (desativada) */
+            transition: color 0.2s;
+        }
+
+        .stars-container button.active,
+        .stars-container button:hover {
+            color: #ffc107; /* Estrela amarela (ativa/hover) */
+        }
+
+        /* Garante que os botões de ação do modal usem o mesmo estilo */
+        #satisfactionModal .modal-actions {
+            padding: 0 20px 20px 20px;
+        }
+
+        /* Estilos para o botão e as estrelas na tabela */
+        .satisfaction-star {
+            font-size: 1.2rem;
+            color: #ffc107; /* Amarelo */
+        }
+
+        .table-review-btn {
+            background-color: var(--secondary-color); /* Seu verde */
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s;
+        }
+
+        .table-review-btn:hover {
+            background-color: #20a074;
+        }
+    </style>
+</head>
+
+
+
+<body>
+<div id="satisfactionModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Pesquisa de Satisfação</h3>
+            <span class="close-satisfaction-button">&times;</span>
+        </div>
+        <div class="satisfaction-body">
+            <h4>Avalie sua experiência com o ticket #<span id="ticketNumber">12345</span></h4>
+            
+            <div class="ticket-context">
+                **Assunto:** <span id="ticketAssunto">Dúvida sobre o lançamento de NF-e no sistema X.</span>
+            </div>
+
+            <div class="rating-section">
+                <p>Qual seu nível de satisfação geral?</p>
+                <div class="stars-container" data-rating="0">
+                    <button type="button" data-value="1">★</button>
+                    <button type="button" data-value="2">★</button>
+                    <button type="button" data-value="3">★</button>
+                    <button type="button" data-value="4">★</button>
+                    <button type="button" data-value="5">★</button>
+                </div>
+            </div>
+
+            <label for="feedback">Comentários Adicionais (Opcional)</label>
+            <textarea id="feedback" rows="3"></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button type="submit" class="send-button" id="sendSatisfactionBtn">Enviar Avaliação</button>
+        </div>
+    </div>
+</div>
+<div class="main-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="https://app2.drsuporti.com.br/glpi/logo_preta.png" width="200px" alt="">
+        </div>
+        <div class="menu-v2">
+            <button class="menu-button active">
+                <i class="icon ticket-icon"></i> Tickets
+            </button>
+            <button class="menu-button">
+                <i class="icon info-icon"></i> Informações
+            </button>
+            <button class="menu-button">
+                <i class="icon download-icon"></i> Download
+            </button>
+            <button class="menu-button">
+                <i class="icon chat-icon"></i> Chat
+            </button>
+        </div>
+        </aside>
+
+    <main class="content">
+        <div class="table-container">
+            <table id="ticketsTable">
+                <thead>
+                    <tr>
+                        <th>Ticket</th>
+                        <th>Prioridade</th>
+                        <th>Assunto Descrição</th>
+                        <th>St.</th>
+                        <th>Operador</th>
+                        <th>Criado</th>
+                        <th>Avaliação</th> <th><i class="refresh-icon" onclick="carregarTickets()"></i></th>
+                    </tr>
+                </thead>
+                <tbody id="ticketsBody">
+                    </tbody>
+            </table>
+        </div>
+        <div class="new-ticket-button">
+        <button>Novo Ticket</button>
+        </div>
+</main>
+</div>
+
+<div id="ticketModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Novo Ticket</h3>
+            <span class="close-button">&times;</span>
+        </div>
+        <form class="modal-form">
+            <label for="assunto">Assunto *</label>
+            <input type="text" id="assunto" required>
+
+            <label for="descricao">Descreva a sua solicitação *</label>
+            <textarea id="descricao" rows="4" required></textarea>
+
+            <div id="anexoDiv" class="anexo">
+                <i class="icon-clip"></i>
+                <span id="anexoText">Clique aqui para carregar seu arquivo.</span>
+                <input type="file" id="fileInput" multiple style="display: none;">
+            </div>
+
+            <div id="nameFormGroup" style="display: none; flex-direction: column; gap: 5px;">
+                <label for="nomeInput">Seu Nome *</label>
+                <input type="text" id="nomeInput" placeholder="Digite seu nome completo">
+            </div>
+            
+            <div id="contactFormGroup" >
+                <label for="contato">Contato *</label>
+                <input type="tel" placeholder="(00) 0 0000-0000" id="contato" maxlength="17" required>
+                <span id="contatoError" class="input-error">Telefone inválido — insira DDD e número válidos.</span>
+            </div>
+            
+            <div id="userInfoDisplay" class="user-info">
+                <p>Olá, <span id="foundUserName" class="user-name"></span></p>
+                <p>Contato: <span id="foundUserContact"></span></p>
+                <div class="user-info-actions">
+                    <span>Não é esse o seu contato?</span>
+                    <button type="button" class="alterar-button">Alterar</button>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="submit" class="send-button">Enviar</button>
+                <button type="button" class="cancel-button">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="loadingModal" class="modal">
+    <div class="modal-content-small loading-modal-content">
+        <div class="loader"></div>
+        <p class="loading-text">Abrindo chamado...</p>
+    </div>
+</div>
+
+<div id="successModal" class="modal">
+    <div class="modal-content-small success-modal-content">
+        <div class="success-icon">&#10004;</div>
+        <p class="success-text">Chamado aberto com sucesso!</p>
+        <button class="modal-close-btn" onclick="closeSuccessModal()">OK</button>
+    </div>
+</div>
+
+<div id="errorModal" class="modal">
+    <div class="modal-content-small error-modal-content">
+        <div class="error-icon">&#10006;</div>
+        <p class="error-text">Ocorreu um erro ao abrir o chamado. Tente novamente.</p>
+        <button class="modal-close-btn" onclick="closeErrorModal()">OK</button>
+    </div>
+</div>
+
+<script>
+    // Referências aos elementos do modal principal
+    const modal = document.getElementById('ticketModal');
+    const btn = document.querySelector('.new-ticket-button button');
+    const closeSpan = document.querySelector('.close-button');
+    const cancelBtn = document.querySelector('.cancel-button');
+    const sendButton = document.querySelector('.send-button');
+
+    // Referências aos novos modais de feedback
+    const loadingModal = document.getElementById('loadingModal');
+    const successModal = document.getElementById('successModal');
+    const errorModal = document.getElementById('errorModal');
+
+    // Referências aos elementos do upload de arquivo
+    const anexoDiv = document.getElementById('anexoDiv');
+    const fileInput = document.getElementById('fileInput');
+    const anexoText = document.getElementById('anexoText');
+    const form = document.querySelector('.modal-form');
+
+    // Referências aos elementos do novo formulário de contato
+    const contatoInput = document.getElementById('contato');
+    const contactFormGroup = document.getElementById('contactFormGroup');
+    const userInfoDisplay = document.getElementById('userInfoDisplay');
+    const foundUserName = document.getElementById('foundUserName');
+    const foundUserContact = document.getElementById('foundUserContact');
+    const alterarBtn = document.querySelector('.alterar-button');
+
+    // ### REFERÊNCIAS ATUALIZADAS ###
+    const nameFormGroup = document.getElementById('nameFormGroup');
+    const nomeInput = document.getElementById('nomeInput');
+
+    // Formatação automática do telefone
+    contatoInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+        let formattedValue = '';
+        
+        if (value.length > 0) {
+            formattedValue = '(' + value.substring(0, 2);
+        }
+        if (value.length >= 3) {
+            formattedValue += ') ' + value.substring(2, 3);
+        }
+        if (value.length >= 4) {
+            formattedValue += ' ' + value.substring(3, 7);
+        }
+        if (value.length >= 8) {
+            formattedValue += '-' + value.substring(7, 11);
+        }
+        
+        e.target.value = formattedValue;
+        // Esconde erro inline quando o número fica válido
+        try {
+            const contatoErrorEl = document.getElementById('contatoError');
+            if (validarTelefone(e.target.value)) {
+                contatoErrorEl.style.display = 'none';
+                contatoInput.classList.remove('input-invalid');
+            }
+        } catch (e) {
+            // ignore se o elemento não existir ainda
+        }
+    });
+
+    // Validação do telefone antes do envio
+    function validarTelefone(telefone) {
+        // Remove caracteres não numéricos
+        const digitos = telefone.replace(/\D/g, '');
+        // Deve ter 11 dígitos (DDD + 9 dígitos)
+        if (digitos.length !== 11) return false;
+
+        // Não pode ser composto somente por zeros
+        if (/^0+$/.test(digitos)) return false;
+
+        // DDD não pode ser '00'
+        if (digitos.slice(0,2) === '00') return false;
+
+        // Os 9 dígitos do número (após DDD) não podem ser todos zeros
+        if (/^0+$/.test(digitos.slice(2))) return false;
+
+        return true;
+    }
+
+
+    // Referências para o novo modal de Satisfação
+    const satisfactionModal = document.getElementById('satisfactionModal');
+    const closeSatisfactionBtn = document.querySelector('.close-satisfaction-button');
+    const starsContainer = document.querySelector('.stars-container');
+    const starButtons = starsContainer.querySelectorAll('button');
+    const sendSatisfactionBtn = document.getElementById('sendSatisfactionBtn');
+    const feedbackTextarea = document.getElementById('feedback');
+    const ticketNumberDisplay = document.getElementById('ticketNumber');
+    const ticketsBody = document.getElementById("ticketsBody");
+    let satisfaction = true;
+    let satisfactionId = null;
+    ticketsIdSatisfaction = null;
+
+    let pendingTickets = [];
+    let currentTicketIndex = 0;
+    
+    
+    
+    const BASE_URL = "https://app2.drsuporti.com.br/glpi/apirest.php";
+    const APP_TOKEN = "4sOSHph3toitmF8yVMkvlPesqkMMZnUpJo5nIOhy";
+    const USER_TOKEN = "CBEqtpJDrb0qAdleTdxkKTBU67kvwKroohZRLKyB";
+    let userId = null;
+    let userName = '';
+    let userContact = '';
+    let hostname = 'DESKTOP-RDD2CLI';
+
+    // Função auxiliar para renderizar estrelas
+    function getStarHtml(rating) {
+        let html = '';
+        for (let i = 1; i <= 5; i++) {
+            html += `<span class="satisfaction-star" style="color: ${i <= rating ? '#ffc107' : '#ccc'};">★</span>`;
+        }
+        return html;
+    }
+
+
+
+    // ### FUNÇÃO ATUALIZADA ###
+    async function fetchAndPopulateUserInfo() {
+        // Reseta todos os campos de usuário/contato
+        userInfoDisplay.style.display = 'none';
+        contactFormGroup.style.display = 'none';
+        nameFormGroup.style.display = 'none';
+        contatoInput.disabled = false;
+        nomeInput.disabled = false;
+        nomeInput.required = false; // Reseta a obrigatoriedade
+
+        if (userId && userId > 0) {
+            // Cenário 1: Usuário existe
+            if (userContact) {
+                // 1a: Usuário existe E tem contato
+                foundUserName.textContent = userName;
+                foundUserContact.textContent = userContact;
+                // Preenche o input de contato com o valor do usuário (mesmo que esteja desabilitado)
+                contatoInput.value = userContact;
+                hideContactForm(); // (Esta função já mostra o userInfoDisplay)
+            } else {
+                // 1b: Usuário existe, mas NÃO tem contato
+                console.log("Usuário encontrado, mas sem contato. Solicitando contato.");
+                showContactForm(); // (Esta função já mostra o contactFormGroup)
+            }
+        } else {
+            // Cenário 2: Usuário NÃO existe (userId é null ou 0)
+            console.log("Nenhum usuário vinculado. Solicitando nome e contato.");
+            // Mostra AMBOS os campos
+            showContactForm(); 
+            nameFormGroup.style.display = 'flex'; // Mostra o campo de nome
+            nameFormGroup.style.flexDirection = 'column'; // Garante o estilo
+            nameFormGroup.style.gap = '5px'; // Garante o estilo
+            nomeInput.required = true; // Torna o nome obrigatório
+        }
+    }
+
+    // Funções auxiliares para mostrar/esconder e habilitar/desabilitar campos
+    function showContactForm() {
+        contactFormGroup.style.display = 'flex';
+        contactFormGroup.style.flexDirection = 'column';
+        contatoInput.disabled = false;
+    }
+
+    function hideContactForm() {
+        contactFormGroup.style.display = 'none';
+        userInfoDisplay.style.display = 'flex';
+        contatoInput.disabled = true;
+    }
+
+    // ### LISTENER ATUALIZADO ###
+    // Funcionalidade do botão "Alterar"
+    alterarBtn.addEventListener('click', () => {
+        userContact = ''; // Limpa o contato global para forçar a re-avaliação
+        // O userId ainda existe, então ele cairá no "Cenário 1b"
+        fetchAndPopulateUserInfo(); 
+    });
+
+    // Funções para abrir e fechar o modal principal
+    btn.onclick = function() {
+        if(!satisfaction){
+            openSatisfactionModal(
+                pendingTickets[currentTicketIndex].id,
+                pendingTickets[currentTicketIndex].assunto
+            );
+        }else{
+            modal.style.display = 'flex';
+            fetchAndPopulateUserInfo();
+        }
+        
+    }
+
+    closeSpan.onclick = function() {
+        modal.style.display = 'none';
+        resetAnexoText();
+    }
+
+    cancelBtn.onclick = function() {
+        modal.style.display = 'none';
+        resetAnexoText();
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            resetAnexoText();
+        }
+        if (event.target == modal) {
+            closeModal();
+        }
+        if (event.target == satisfactionModal) { // NOVO
+            satisfactionModal.style.display = 'none';
+            updateStars(0);
+        }
+    }
+
+    // Funcionalidade de upload de arquivo
+    anexoDiv.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            let fileNames = Array.from(fileInput.files).map(file => file.name).join(', ');
+            anexoText.textContent = fileNames;
+            anexoText.classList.add('anexo-filename');
+        } else {
+            resetAnexoText();
+        }
+    });
+
+    function resetAnexoText() {
+        anexoText.textContent = 'Clique aqui para carregar seu arquivo.';
+        anexoText.classList.remove('anexo-filename');
+    }
+
+    // Funções para controlar os modais de feedback
+    function showLoading() {
+        loadingModal.style.display = 'flex';
+    }
+
+    function hideLoading() {
+        loadingModal.style.display = 'none';
+    }
+
+    function showSuccess() {
+        successModal.style.display = 'flex';
+    }
+
+    function closeSuccessModal() {
+        successModal.style.display = 'none';
+        modal.style.display = 'none'; // Fecha o modal de formulário também
+        form.reset(); // Limpa o formulário
+    }
+
+    function showError() {
+        errorModal.style.display = 'flex';
+    }
+
+    function closeErrorModal() {
+        errorModal.style.display = 'none';
+    }
+
+    // ### LISTENER ATUALIZADO ###
+    // Lógica para enviar o formulário
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validação do telefone (mostrar mensagem inline em vez de alert)
+        const contatoValue = document.getElementById('contato').value;
+        const contatoErrorEl = document.getElementById('contatoError');
+        if (!validarTelefone(contatoValue)) {
+            contatoErrorEl.textContent = 'Telefone inválido — insira DDD e número válidos, não use zeros.';
+            contatoErrorEl.style.display = 'block';
+            contatoInput.classList.add('input-invalid');
+            return;
+        } else {
+            contatoErrorEl.style.display = 'none';
+            contatoInput.classList.remove('input-invalid');
+        }
+
+        // 1. Esconde o modal do formulário e mostra o de loading
+        modal.style.display = 'none';
+        
+
+        const assunto = document.getElementById('assunto').value;
+        const descricao = document.getElementById('descricao').value;
+        const contato = contatoValue;
+        
+        // Pega o nome do input
+        const nomeDoInput = document.getElementById('nomeInput').value; 
+
+        let = descricao_completa = `${descricao}
+        Contato:${contato}`
+
+        // Chama a função assíncrona para criar o ticket (passando o nome)
+        await criarTicket(assunto, descricao_completa, contato, nomeDoInput);
+    });
+
+    sendSatisfactionBtn.addEventListener('click', (e) => {
+        e.preventDefault(); 
+
+        const rating = starsContainer.dataset.rating;
+        const feedback = feedbackTextarea.value;
+        const currentTicket = pendingTickets[currentTicketIndex];
+
+        // 1. Validação
+        if (parseInt(rating) === 0) {
+            alert("Por favor, selecione pelo menos 1 estrela para enviar sua avaliação.");
+            return; 
+        }
+
+        try {
+            if(satisfactionId){
+                const url = "https://app2.drsuporti.com.br/glpi/plugins/ticketsatisfactionapi/front/api.php";
+
+                const headers = {
+                "App-Token": "4sOSHph3toitmF8yVMkvlPesqkMMZnUpJo5nIOhy",
+                "Content-Type": "application/json"
+                };
+
+                const payload = {
+                    id: currentTicket.satisfactionId, // ID da satisfação
+                    tickets_id: currentTicket.id, // ID do chamado
+                    satisfaction: rating, // Nota
+                    comment: feedback
+                };
+
+                fetch(url, {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.text()) // ou .json() se a API retornar JSON
+                .then(data => {
+                    console.log("Resposta:", data);
+                    satisfaction = true;
+                })
+                .catch(error => {
+                    console.error("Erro:", error);
+                });
+            }
+            
+            closeSatisfactionModal();
+        } catch (err) {
+            console.error("Erro ao enviar pesquisa:", err);
+        }
+
+        // 2. Simula o envio (Log)
+        console.log("--- AVALIAÇÃO ENVIADA ---");
+        console.log("Ticket ID:", currentTicket.id);
+        console.log("Satisfação (Estrelas):", rating + "/5");
+        console.log("Comentários:", feedback || "Nenhum comentário.");
+        console.log("--------------------------");
+
+        // 3. Incrementa o índice
+        currentTicketIndex++;
+
+        if (currentTicketIndex < pendingTickets.length) {
+            // 4. Se houver mais tickets, prepara e abre o próximo modal imediatamente
+            updateStars(0); // Reseta as estrelas
+            feedbackTextarea.value = ''; // Limpa o feedback
+            
+            openSatisfactionModal(
+                pendingTickets[currentTicketIndex].id,
+                pendingTickets[currentTicketIndex].assunto
+            );
+        } else {
+            // 5. Fim da fila
+            closeSatisfactionModal();
+            carregarTickets();
+            
+            // Simula o esvaziamento da fila de tickets para a próxima vez
+            pendingTickets = []; 
+            currentTicketIndex = 0;
+        }
+    });
+
+    // ### FUNÇÃO ATUALIZADA (ASSINATURA E BLOCOS B e CATCH) ###
+    async function criarTicket(assunto, descricao, contato, nomeDoInput) { 
+        try {
+            showLoading();
+            // computerId é necessário para vincular o usuário E o ticket
+            const computerId = getComputerId();
+            if (!computerId) {
+                // Se não achou o computador local, não podemos continuar
+                throw new Error("Não foi possível identificar este computador no GLPI.");
+            }
+
+            // O 'nomeDoInput' agora vem por parâmetro
+
+            // Inicia sessão
+            const initResponse = await fetch(`${BASE_URL}/initSession?user_token=${USER_TOKEN}`, {
+                method: 'GET',
+                headers: { 'App-Token': APP_TOKEN }
+            });
+
+            if (!initResponse.ok) throw new Error('Erro ao iniciar sessão');
+
+            const session = await initResponse.json();
+            const session_token = session.session_token;
+
+            const headers = {
+                'App-Token': APP_TOKEN,
+                'Session-Token': session_token,
+                'Content-Type': 'application/json'
+            };
+
+            // --- INÍCIO DA LÓGICA DE CRIAÇÃO/ATUALIZAÇÃO DE USUÁRIO ---
+
+            if (!userContact) { 
+                
+                if (userId && userId > 0) {
+                    // --- Cenário A: Usuário existe, só ATUALIZAR o telefone ---
+                    console.log(`Atualizando telefone do usuário ID: ${userId}`);
+                    const updateUserPayload = {
+                        input: {
+                            phone: contato,
+                            name: userName ?? 'Antonio', 
+                            entities_id: '17', 
+                        }
+                    };
+                    const userResponse = await fetch(`${BASE_URL}/User/${userId}`, {
+                        method: 'PUT',
+                        headers: headers,
+                        body: JSON.stringify(updateUserPayload)
+                    });
+                    
+                    if (!userResponse.ok) {
+                         console.warn("Falha ao atualizar o telefone do usuário, mas o ticket será criado mesmo assim.");
+                    } else {
+                         console.log("Telefone do usuário atualizado.");
+                         userContact = contato; 
+                    }
+
+                } else {
+                    // --- Cenário B: Usuário NÃO existe, CRIAR e VINCULAR ---
+                    console.log("Criando novo usuário e vinculando ao host...");
+                    
+                    const novoNome = nomeDoInput || 'Antonio'; 
+                    
+                    const createUserPayload = {
+                        input: {
+                            name: novoNome,
+                            phone: contato,
+                            entities_id: '17',
+                        }
+                    };
+                    
+                    const createUserResponse = await fetch(`${BASE_URL}/User/`, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(createUserPayload)
+                    });
+
+                    // ### TRATAMENTO DE ERRO ESPECÍFICO ###
+                    let newUserId;
+
+                    if (createUserResponse.ok) {
+                        const newUserData = await createUserResponse.json();
+                        if (newUserData && newUserData.id) {
+                            newUserId = newUserData.id;
+                        } else {
+                            console.error("Criação de usuário deu OK, mas não retornou ID.", newUserData);
+                            throw new Error("Falha inesperada ao criar usuário.");
+                        }
+                    } else {
+                        // A API retornou um erro
+                        const errorData = await createUserResponse.json();
+                        let errorMessage = "Falha ao criar o usuário."; // Fallback
+
+                        if (Array.isArray(errorData) && errorData.length > 1) {
+                            errorMessage = errorData[1]; // Ex: "O nome '...' já existe"
+                        } else if (typeof errorData === 'object' && errorData !== null && errorData.message) {
+                            errorMessage = errorData.message;
+                        } else if (typeof errorData === 'string') {
+                            errorMessage = errorData;
+                        } else {
+                            console.error("Falha ao CRIAR o novo usuário (resposta bruta):", errorData);
+                        }
+                        
+                        console.error("Falha da API ao CRIAR o novo usuário:", errorMessage);
+                        // Lança o erro específico da API
+                        throw new Error(errorMessage);
+                    }
+                    
+                    console.log(`Novo usuário criado com ID: ${newUserId}`);
+                    
+                    // Atualiza variáveis globais
+                    userId = newUserId; 
+                    userName = novoNome;
+                    userContact = contato;
+                    
+                    // B.2: Vincular o novo usuário ao computador
+                    console.log(`Vinculando usuário ${newUserId} ao computador ${computerId}`);
+                    
+                    const linkPayload = {
+                        input: {
+                            users_id: newUserId
+                        }
+                    };
+
+                    const linkUserResponse = await fetch(`${BASE_URL}/Computer/${computerId}`, {
+                        method: 'PUT',
+                        headers: headers,
+                        body: JSON.stringify(linkPayload)
+                    });
+
+                    if (!linkUserResponse.ok) {
+                        const errorData = await linkUserResponse.json();
+                        console.warn("Falha ao VINCULAR usuário ao computador:", errorData);
+                    } else {
+                        console.log("Usuário vinculado ao computador com sucesso.");
+                    }
+                }
+            }
+            
+            // --- FIM DA NOVA LÓGICA ---
+
+
+            // 1. Cria o ticket
+            const payload = {
+                input: {
+                    name: assunto,
+                    content: descricao,
+                    requesttypes_id: 1,
+                    entities_id: '17',
+                    _users_id_requester: [userId ?? 0],
+                    _groups_id_assign: 2
+                }
+            };
+
+            const ticketResponse = await fetch(`${BASE_URL}/Ticket/`, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify(payload)
+            });
+
+            const ticketData = await ticketResponse.json();
+
+            if (ticketResponse.ok && ticketData && ticketData.id) {
+                const ticketId = ticketData.id;
+                console.log("Chamado aberto com sucesso! ID:", ticketId);
+
+                // 2. Atrelar computador ao TICKET
+                const linkPayload = {
+                    input: {
+                        itemtype: "Computer",
+                        items_id: computerId,
+                        tickets_id: ticketId
+                    }
+                };
+
+                const linkResp = await fetch(`${BASE_URL}/Ticket/${ticketId}/Item_Ticket/`, {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify(linkPayload)
+                });
+
+                const linkData = await linkResp.json();
+                console.log("Vínculo do computador ao ticket:", linkData);
+
+                // --- UPLOAD DE ANEXOS (se houver) ---
+                try {
+                    if (fileInput.files && fileInput.files.length > 0) {
+                        console.log(`Enviando ${fileInput.files.length} anexo(s) para o ticket ${ticketId}...`);
+
+                        for (let i = 0; i < fileInput.files.length; i++) {
+                            const file = fileInput.files[i];
+
+                            const fd = new FormData();
+
+                            // Construir o manifest JSON conforme instruções do servidor
+                            const manifest = {
+                                input: {
+                                    name: file.name,
+                                    filename: file.name,
+                                    entities_id: '17'
+                                }
+                            };
+
+                            // Campos exigidos: uploadManifest (string JSON) e filename[0] para o arquivo
+                            fd.append('uploadManifest', JSON.stringify(manifest));
+                            fd.append('filename[0]', file, file.name);
+
+                            // Depuração: lista pares do FormData (o arquivo aparecerá como File)
+                            for (const pair of fd.entries()) {
+                                console.log('FormData:', pair[0], pair[1]);
+                            }
+
+                            // 1) POST /Document/ (multipart/form-data)
+                            const uploadResp = await fetch(`${BASE_URL}/Document/`, {
+                                method: 'POST',
+                                headers: {
+                                    'App-Token': APP_TOKEN,
+                                    'Session-Token': session_token
+                                },
+                                body: fd
+                            });
+
+                            const uploadText = await uploadResp.text();
+                            if (uploadResp.ok) {
+                                let uploadData;
+                                try { uploadData = JSON.parse(uploadText); } catch(e) { uploadData = uploadText; }
+                                console.log('Resposta /Document/:', uploadData);
+
+                                // Extrai document ID (espera-se {id: 123} ou similar)
+                                const documentId = (uploadData && uploadData.id) ? uploadData.id : null;
+
+                                if (documentId) {
+                                    // 2) Vincular documento ao TICKET via /Document_Item
+                                    const linkPayload = {
+                                        input: {
+                                            documents_id: documentId,
+                                            itemtype: "Ticket",
+                                            items_id: ticketId
+                                        }
+                                    };
+
+                                    const linkResp = await fetch(`${BASE_URL}/Document_Item`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'App-Token': APP_TOKEN,
+                                            'Session-Token': session_token,
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(linkPayload)
+                                    });
+
+                                    const linkText = await linkResp.text();
+                                    if (linkResp.ok) {
+                                        try { console.log('Documento vinculado:', JSON.parse(linkText)); } catch(e) { console.log('Documento vinculado:', linkText); }
+                                    } else {
+                                        console.warn('Falha ao vincular documento:', linkResp.status, linkText);
+                                    }
+                                } else {
+                                    console.warn('Não foi possível extrair documentId da resposta /Document/:', uploadData);
+                                }
+                            } else {
+                                console.warn(`Falha ao enviar anexo ${file.name}:`, uploadResp.status, uploadText);
+                            }
+                        }
+                    }
+                } catch (errUpload) {
+                    console.error('Erro no upload de anexos:', errUpload);
+                }
+
+                hideLoading();
+                showSuccess();
+                carregarTickets(); 
+            } else {
+                hideLoading();
+                console.error("Erro na criação do ticket:", ticketData);
+                showError();
+            }
+
+            // Encerra sessão
+            await fetch(`${BASE_URL}/killSession`, { method: 'GET', headers });
+
+        } catch (error) {
+            // ### BLOCO CATCH ATUALIZADO ###
+            console.error("Erro geral:", error);
+            hideLoading();
+            
+            const errorText = document.querySelector("#errorModal .error-text");
+            const errorMessage = error.message || ''; // Garante que é uma string
+
+            // Novo: Checagem específica para "já existe"
+            if (errorMessage.toLowerCase().includes("já existe") || 
+                errorMessage.toLowerCase().includes("already exists")) {
+                
+                console.warn("Erro detectado: Usuário já existe.");
+                // nomeDoInput é um parâmetro da função criarTicket agora
+                errorText.textContent = `O usuário '${nomeDoInput || 'informado'}' já existe. Por favor, use um nome ou contato diferente.`;
+            } 
+            // Checagens antigas
+            else if (errorMessage.includes("identificar este computador")) {
+                errorText.textContent = error.message;
+            } 
+            // Apanhador genérico para outros erros de criação ou falhas
+            else {
+                 console.log("Erro não específico pego:", errorMessage);
+                 // Exibe a mensagem de erro da API, se houver
+                 errorText.textContent = `Ocorreu um erro: ${errorMessage}. Tente novamente.`;
+            }
+            
+            showError();
+        }
+    }
+        
+
+    function getComputerId() {
+        // 1. Inicia sessão
+        const initReq = new XMLHttpRequest();
+        initReq.open("GET", `${BASE_URL}/initSession?user_token=${USER_TOKEN}`, false); // false = síncrono
+        initReq.setRequestHeader("App-Token", APP_TOKEN);
+        initReq.send();
+
+        const session = JSON.parse(initReq.responseText);
+
+        const headers = {
+            "App-Token": APP_TOKEN,
+            "Session-Token": session.session_token
+        };
+
+        // 2. Monta critérios de busca
+        const params = new URLSearchParams({
+            "criteria[0][field]": 1,
+            "criteria[0][searchtype]": "contains",
+            "criteria[0][value]": hostname,
+            "forcedisplay[0]": 2,
+            "forcedisplay[1]": 1,
+            "forcedisplay[2]": 4
+        });
+
+        // 3. Busca o computador
+        const compReq = new XMLHttpRequest();
+        compReq.open("GET", `${BASE_URL}/search/Computer?${params}`, false);
+        compReq.setRequestHeader("App-Token", APP_TOKEN);
+        compReq.setRequestHeader("Session-Token", session.session_token);
+        compReq.send();
+
+        const compData = JSON.parse(compReq.responseText);
+
+        if (compData.totalcount > 0) {
+            const comp = compData.data[0];
+            return comp["2"];
+        }
+
+        return null;
+    }
+
+    async function carregarTickets() {
+        pendingTickets = []; // Zera a lista de pendentes ao recarregar
+        
+        const tbody = document.getElementById("ticketsBody");
+        ticketsBody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Carregando...</td></tr>';
+        try {
+            const initResp = await fetch(`${BASE_URL}/initSession?user_token=${USER_TOKEN}`, { method:'GET', headers:{'App-Token':APP_TOKEN} });
+            const session = await initResp.json();
+            const headers = { 'App-Token': APP_TOKEN, 'Session-Token': session.session_token };
+
+
+            const params = new URLSearchParams({
+                "criteria[0][field]": 1,
+                "criteria[0][searchtype]": "contains",
+                "criteria[0][value]": hostname,
+                "forcedisplay[0]": 2,
+                "forcedisplay[1]": 1,
+                "forcedisplay[2]": 4
+            });
+
+            
+
+            const compResp = await fetch(`${BASE_URL}/search/Computer?${params}`, { headers });
+            const compData = await compResp.json();
+
+
+            if (compData.totalcount > 0) {
+                const comp = compData.data[0];
+                const compDetail = await fetch(`${BASE_URL}/Computer/${comp["2"]}`, { headers });
+                const compDetailData = await compDetail.json();
+                userId = compDetailData['users_id']
+                console.log("id do usuario: "+userId);
+                
+                // *** LÓGICA DE VERIFICAÇÃO DE USUÁRIO ***
+                if (userId && userId > 0) { 
+                    const userDetail = await fetch(`${BASE_URL}/User/${userId}`, { headers });
+                    if (userDetail.ok) { 
+                        const userDetailData = await userDetail.json();
+                        userName = userDetailData.name;
+                        userContact = userDetailData.phone;
+                        console.log(userDetailData)
+                    } else {
+                        console.warn(`ID de usuário ${userId} encontrado no computador, mas falha ao buscar detalhes do usuário. Tratando como usuário nulo.`);
+                        userId = null; 
+                    }
+                } else {
+                    console.log("Nenhum usuário (ID 0 ou null) vinculado a este computador.");
+                    userId = null; 
+                }
+                
+
+                const ticketLinks = compDetailData.links.filter(l => l.rel === "Item_Ticket");
+                let tickets = [];
+                for (const link of ticketLinks) {
+                    const resp = await fetch(link.href, { headers });
+                    const itens = await resp.json();
+                    for (const item of itens) {
+                        for (const l of item.links) {
+                            if (l.rel === "Ticket") {
+                                const ticketResp = await fetch(l.href, { headers });
+                                tickets.push(await ticketResp.json());
+                                
+                            }
+                        }
+                    }
+                }
+                ticketsBody.innerHTML = tickets.length ? "" : '<tr><td colspan="9" style="text-align:center;">Nenhum ticket encontrado</td></tr>';
+                for (const t of tickets) {
+                    const satisfactionResp = await fetch(`${BASE_URL}/Ticket/${t.id}/TicketSatisfaction`, { headers });
+                    const satisfactionData = await satisfactionResp.json();
+                    let avaliacaoHtml = '';
+                    if(satisfactionData.length > 0){
+                        const satisfactionItem = satisfactionData[0];
+                        if (satisfactionItem.date_answered) {
+                            // Ticket já avaliado
+                            const rating = satisfactionItem.satisfaction || 5; 
+                            avaliacaoHtml = getStarHtml(rating);
+                        }else {
+                            // Ticket PENDENTE de avaliação
+                            avaliacaoHtml = `<button class="table-review-btn" onclick="openSatisfactionModal('${t.id}', '${t.name}', '${satisfactionItem.id}')">Avaliar</button>`;
+                            
+                            console.log(t);
+                            if (!satisfactionData[0].date_answered){
+                                console.log(satisfactionData);
+                                satisfaction = false;
+                                ticketsIdSatisfaction = satisfactionData[0].tickets_id
+                                satisfactionId = satisfactionData[0].id
+                                pendingTickets.push({id:t.id, assunto:t.name, operador:'Antonio', satisfactionId:satisfactionId})
+                            }
+                        }
+                        
+                            
+                    } else {
+                        // Sem registro de satisfação (ou não deve ser avaliado)
+                        avaliacaoHtml = 'Sem Avaliação'; 
+                    }
+                    
+                    ticketsBody.insertAdjacentHTML('beforeend', `<tr>
+                        <td>${t.id || ''}</td><td>${t.priority || ''}</td><td>${t.name || ''}</td>
+                        <td>${t.status || ''}</td>
+                        <td>${t.users_id_lastupdater || ''}</td><td>${t.date || ''}</td>
+                        <td>${avaliacaoHtml}</td><td></td>
+                    </tr>`);
+                }
+            } else {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">Computador não encontrado</td></tr>';
+            }
+            await fetch(`${BASE_URL}/killSession`, { headers });
+        } catch(err) {
+            console.error(err);
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:red;">Erro ao carregar tickets</td></tr>';
+        }
+    }
+
+    
+
+    // --- LÓGICA DE AVALIAÇÃO POR ESTRELAS ---
+    function updateStars(rating) {
+        starButtons.forEach(button => {
+            if (parseInt(button.dataset.value) <= rating) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+        starsContainer.dataset.rating = rating;
+    }
+
+    starButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const rating = parseInt(button.dataset.value);
+            updateStars(rating);
+        });
+    });
+
+    // Funções para abrir/fechar o Modal de Satisfação
+    closeSatisfactionBtn.onclick = function() {
+        satisfactionModal.style.display = 'none';
+        updateStars(0); // Reseta a avaliação ao fechar
+    };
+
+    // Adicione aqui a função para abrir o modal de satisfação
+    function openSatisfactionModal(ticketId, assunto) {
+        document.getElementById('ticketNumber').textContent = ticketId || 'N/A';
+        document.getElementById('ticketAssunto').textContent = assunto || 'Sem descrição.';
+        satisfactionModal.style.display = 'flex';
+    }
+
+    function closeSatisfactionModal() {
+        satisfactionModal.style.display = 'none';
+        updateStars(0); 
+        feedbackTextarea.value = '';
+    }
+    
+    window.onload = carregarTickets;
+</script>
+
+</body>
+</html>
+
+
+
+
+

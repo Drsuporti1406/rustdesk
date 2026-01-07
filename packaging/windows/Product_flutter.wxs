@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="DrSuporti Remote" Language="1033" Version="$(var.ProductVersion)" Manufacturer="DrSuporti" UpgradeCode="{E3A9B3D6-3C1A-4E6A-8F6C-0123456789AB}">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64"/>
+
+    <MajorUpgrade
+      DowngradeErrorMessage="A newer version of DrSuporti Remote is already installed."
+      AllowSameVersionUpgrades="yes"
+      Schedule="afterInstallInitialize"
+    />
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
+
+    <Icon Id="AppIcon" SourceFile="package_flutter\icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+
+    <!-- Install DrSuporti Remote Windows service automatically. -->
+    <CustomAction
+      Id="ca_install_service"
+      FileKey="fil_rustdesk_exe"
+      ExeCommand="--install-service --silent"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no"
+    />
+    <CustomAction
+      Id="ca_uninstall_service"
+      FileKey="fil_rustdesk_exe"
+      ExeCommand="--uninstall-service"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no"
+    />
+
+    <InstallExecuteSequence>
+      <Custom Action="ca_install_service" After="InstallFiles">NOT Installed</Custom>
+      <Custom Action="ca_uninstall_service" Before="RemoveFiles">REMOVE="ALL"</Custom>
+    </InstallExecuteSequence>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="DrSuporti Remote"/>
+      </Directory>
+      <Directory Id="CommonProgramsFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="DrSuporti Remote"/>
+      </Directory>
+      <Directory Id="CommonDesktopFolder"/>
+    </Directory>
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="cmp_rustdesk_exe" Guid="{11111111-1111-1111-1111-111111111111}" Win64="yes">
+        <File Id="fil_rustdesk_exe" Source="$(var.SourceDir)\rustdesk.exe" KeyPath="yes"/>
+        <ServiceControl Id="svc_rustdesk"
+                        Name="DrSuportiRemote"
+                        Stop="both"
+                        Remove="uninstall"
+                        Wait="yes" />
+      </Component>
+      <Component Id="cmp_uri_protocol_rustdesk" Guid="{44444444-4444-4444-4444-444444444444}" Win64="yes">
+        <RegistryValue Root="HKLM"
+                       Key="Software\Classes\rustdesk"
+                       Type="string"
+                       Value="URL:RustDesk Protocol"
+                       KeyPath="yes"/>
+        <RegistryValue Root="HKLM"
+                       Key="Software\Classes\rustdesk"
+                       Name="URL Protocol"
+                       Type="string"
+                       Value="1"/>
+        <RegistryValue Root="HKLM"
+                       Key="Software\Classes\rustdesk\DefaultIcon"
+                       Type="string"
+                       Value="&quot;[INSTALLFOLDER]rustdesk.exe&quot;,0"/>
+        <RegistryValue Root="HKLM"
+                       Key="Software\Classes\rustdesk\shell\open\command"
+                       Type="string"
+                       Value="&quot;[INSTALLFOLDER]rustdesk.exe&quot; &quot;%1&quot;"/>
+      </Component>
+      <Component Id="cmp_install_location" Guid="*" Win64="yes">
+        <RegistryValue Root="HKLM"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
+                       Name="InstallLocation"
+                       Type="string"
+                       Value="[INSTALLFOLDER]"
+                       KeyPath="yes"/>
+        <RegistryValue Root="HKLM"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
+                       Name="BuildDate"
+                       Type="string"
+                       Value="$(var.BuildDate)"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="cmp_shortcuts_menu" Guid="{33333333-3333-3333-3333-333333333333}" Win64="yes">
+        <Shortcut Id="sc_start_menu"
+                  Name="DrSuporti Remote"
+                  Description="DrSuporti Remote"
+                  Target="[INSTALLFOLDER]rustdesk.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="AppIcon" />
+        <RemoveFolder Id="rm_start_menu" Directory="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKLM"
+                       Key="Software\DrSuporti Remote"
+                       Name="StartMenuShortcut"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="CommonDesktopFolder">
+      <Component Id="cmp_shortcuts_desktop" Guid="{33333333-3333-3333-3333-333333333334}" Win64="yes">
+        <Shortcut Id="sc_desktop"
+                  Name="DrSuporti Remote"
+                  Description="DrSuporti Remote"
+                  Target="[INSTALLFOLDER]rustdesk.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="AppIcon" />
+        <RegistryValue Root="HKLM"
+                       Key="Software\DrSuporti Remote"
+                       Name="DesktopShortcut"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="DefaultFeature" Level="1">
+      <ComponentRef Id="cmp_rustdesk_exe" />
+      <ComponentRef Id="cmp_shortcuts_menu" />
+      <ComponentRef Id="cmp_shortcuts_desktop" />
+      <ComponentRef Id="cmp_uri_protocol_rustdesk" />
+      <ComponentRef Id="cmp_install_location" />
+      <ComponentGroupRef Id="AppFiles" />
+    </Feature>
+  </Product>
+</Wix>

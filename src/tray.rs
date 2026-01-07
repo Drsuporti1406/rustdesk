@@ -43,7 +43,7 @@ fn make_tray() -> hbb_common::ResultType<()> {
     }
     #[cfg(windows)]
     {
-        icon = include_bytes!("../src/logo.png");
+        icon = include_bytes!("../res/tray-icon.ico");
     }
     #[cfg(all(not(target_os = "macos"), not(windows)))]
     {

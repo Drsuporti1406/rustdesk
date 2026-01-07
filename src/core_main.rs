@@ -375,7 +375,11 @@ pub fn core_main() -> Option<Vec<String>> {
             return None;
         } else if args[0] == "--install-service" {
             log::info!("start --install-service");
-            crate::platform::install_service();
+            if args.get(1).map(|s| s.as_str()) == Some("--silent") {
+                crate::platform::install_service_silent();
+            } else {
+                crate::platform::install_service();
+            }
             return None;
         } else if args[0] == "--uninstall-service" {
             log::info!("start --uninstall-service");

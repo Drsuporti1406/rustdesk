@@ -140,6 +140,19 @@ try {
   $productVersion = "$major.$minor.$patch.$build"
   Write-Host "Using MSI ProductVersion: $productVersion"
 
+  $buildDate = ""
+  $versionRs = Join-Path $Root 'src\\version.rs'
+  if (Test-Path $versionRs) {
+    $m = Select-String -LiteralPath $versionRs -Pattern 'BUILD_DATE: &str = \"([^\"]+)\"' -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($m -and $m.Matches.Count -gt 0) {
+      $buildDate = $m.Matches[0].Groups[1].Value
+    }
+  }
+  if (-not $buildDate) {
+    $buildDate = (Get-Date).ToString("yyyy-MM-dd HH:mm")
+  }
+  Write-Host "Using BuildDate: $buildDate"
+
   $wixCandidates = @()
   if ($WixBinPath) { $wixCandidates += $WixBinPath }
   $wixCandidates += @(
@@ -160,7 +173,7 @@ try {
   if (-not $candle) { throw "candle.exe (WiX) not found in PATH" }
   if (-not $light) { throw "light.exe (WiX) not found in PATH" }
   # Force x64 MSI so ProgramFiles64Folder is honored on 64-bit Windows.
-  & candle.exe -arch x64 Product.wxs "-dProductVersion=$productVersion" -out Product.wixobj | Tee-Object -FilePath candle_output.txt | Out-Null
+  & candle.exe -arch x64 Product.wxs "-dProductVersion=$productVersion" "-dBuildDate=$buildDate" -out Product.wixobj | Tee-Object -FilePath candle_output.txt | Out-Null
   if ($LASTEXITCODE -ne 0) { throw "candle.exe failed with exit code $LASTEXITCODE. See: $(Join-Path $PSScriptRoot 'candle_output.txt')" }
 
   # Build to a temporary name first to avoid file-in-use issues, then replace the final MSI.

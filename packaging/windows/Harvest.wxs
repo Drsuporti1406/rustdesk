@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Component Id="cmp2CD06D85712105D7F5156BF1A0845776" Guid="{6AD6457D-9B6A-4512-8B0C-5D4B76836A5C}">
+                <File Id="fil12B2920321B02E61D60257FD35C20C55" KeyPath="yes" Source="$(var.SourceDir)\desktop_drop_plugin.dll" />
+            </Component>
+            <Component Id="cmp012F7070E69EFF4320E139815882BEE5" Guid="{1D114CDD-6F15-494C-9FA1-DD1EC78BF4D8}">
+                <File Id="fil5992837D8A9571091EE1A787CDCADF72" KeyPath="yes" Source="$(var.SourceDir)\desktop_multi_window_plugin.dll" />
+            </Component>
+            <Component Id="cmpE625E77F522637C094C5867D5E084A27" Guid="{45BADBD0-DEF3-418D-B191-D08ECF3B5F33}">
+                <File Id="fil31401CE1FB9E3C72D10B649266643710" KeyPath="yes" Source="$(var.SourceDir)\file_selector_windows_plugin.dll" />
+            </Component>
+            <Component Id="cmpF6746A9DA97FD0A8BEB6B4AD93DBAF2E" Guid="{7D789BBF-E39A-4492-921E-6E74860EB6D4}">
+                <File Id="filD89D2545FB955250CD54C31C12210288" KeyPath="yes" Source="$(var.SourceDir)\flutter_custom_cursor_plugin.dll" />
+            </Component>
+            <Component Id="cmp56CF220A0F2463F9A5E85A05D1E79C99" Guid="{0A9D356D-5BA4-490F-946A-4405FDF3A102}">
+                <File Id="fil6947FF6A042A37A7B25BEE11BB9C0625" KeyPath="yes" Source="$(var.SourceDir)\flutter_gpu_texture_renderer_plugin.dll" />
+            </Component>
+            <Component Id="cmpDC22F85144003CB2F05080B8CF79FC46" Guid="{81A5545D-A0DA-4830-A0A0-5AFF2040E2EC}">
+                <File Id="fil230F9A11CF93D3D1A94FAA7A9D69118F" KeyPath="yes" Source="$(var.SourceDir)\flutter_windows.dll" />
+            </Component>
+            <Component Id="cmp6008A86AE138BD45314608B385266AA3" Guid="{8F85395E-DA5C-4FE2-837F-E0677EDC7A01}">
+                <File Id="fil1903E10C302552AF0F25292D924A8B57" KeyPath="yes" Source="$(var.SourceDir)\icon.ico" />
+            </Component>
+            <Component Id="cmpFC51E889A92B742B5F953C34F614A7BE" Guid="{EFDCD43D-181F-4857-B5A1-BE8DF8BF04BE}">
+                <File Id="filDA3C8FD35FE49EE79863157620936557" KeyPath="yes" Source="$(var.SourceDir)\librustdesk.dll" />
+            </Component>
+            
+            <Component Id="cmpE1F819E9F0DE12052216D6D9563E4EF5" Guid="{6E433D26-CE5F-42EA-A3A6-AA4983EF2A27}">
+                <File Id="fil7B3403D80EADBBEC42D6210D3289C926" KeyPath="yes" Source="$(var.SourceDir)\screen_retriever_plugin.dll" />
+            </Component>
+            <Component Id="cmp847F16B6E444F4EF34D3DE5F4DDAA8F5" Guid="{2CC52A29-C846-4452-B00B-BF074314E05E}">
+                <File Id="fil9332C7D2F183FC6BD5D3D6892B659059" KeyPath="yes" Source="$(var.SourceDir)\texture_rgba_renderer_plugin.dll" />
+            </Component>
+            <Component Id="cmpD25B21823450CD471774673B7AA06196" Guid="{7D7C09E3-0B9F-4AD4-BE24-2B428D627188}">
+                <File Id="filAAD8F73DA1C26391B99FE8819C39262B" KeyPath="yes" Source="$(var.SourceDir)\uni_links_desktop_plugin.dll" />
+            </Component>
+            <Component Id="cmp39E7414C8679E28554E4A9F5B3298D3E" Guid="{F7D2427C-3F31-478C-B205-3073E2AA645E}">
+                <File Id="fil34CEE0072415DFB04188A3F265BF58F8" KeyPath="yes" Source="$(var.SourceDir)\url_launcher_windows_plugin.dll" />
+            </Component>
+            <Component Id="cmp70D7EF34E9B6D1081400F0FC7644524D" Guid="{0912DDAB-9CE1-4A25-948E-0A07CDEFA6B6}">
+                <File Id="fil6EACF2B9B1DC081EB15B302C51C8FAD7" KeyPath="yes" Source="$(var.SourceDir)\window_manager_plugin.dll" />
+            </Component>
+            <Component Id="cmp9320B2F1ACD0D9B220E969B0442D1F9A" Guid="{E5490F11-3B4D-43A3-AA44-41F77003ABA1}">
+                <File Id="fil3C827FFBB0387518E1FD4162F23CAF0A" KeyPath="yes" Source="$(var.SourceDir)\window_size_plugin.dll" />
+            </Component>
+            <Directory Id="dir76A8B56EDC1C4DD3CB4177F3704BC91E" Name="data">
+                <Component Id="cmpCF83D7D65587D05A151D1E25702E167F" Guid="{FCEEAA3B-B964-4F45-A9EB-E37E2DCFAE30}">
+                    <File Id="filC8D6740BEA75F19BA5204B613C03D8A8" KeyPath="yes" Source="$(var.SourceDir)\data\app.so" />
+                </Component>
+                <Component Id="cmp0E0DCB81807E433F9DBCEB0D089B25B5" Guid="{002D2844-4181-403C-A33D-0F26730CB498}">
+                    <File Id="filFB2ED5EBC1081127146486443055DB0D" KeyPath="yes" Source="$(var.SourceDir)\data\icudtl.dat" />
+                </Component>
+                <Directory Id="dir4311D903D70E55164A03E9E9374AC9B0" Name="flutter_assets">
+                    <Component Id="cmp362972CB336FCADAB6FAD4E58ABB50C0" Guid="{332C37AE-41D2-44B2-9F79-49075774DA5E}">
+                        <File Id="filF34A97E96DF56DC7F9FA1F571A635270" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\AssetManifest.bin" />
+                    </Component>
+                    <Component Id="cmp75131C7E850BF8649161906B63E97A22" Guid="{3C7C43AA-9D6C-4AA0-A73D-3BA9CDDA09D0}">
+                        <File Id="filB615B988CD753762830B641F1427F799" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\AssetManifest.json" />
+                    </Component>
+                    <Component Id="cmp7A9B0136F23F84A4A09D4D0E28D8636B" Guid="{2E3E1920-C6C8-4AD8-856D-A9FB22E22366}">
+                        <File Id="fil130B1805FDD25A50E354B5ADEEAC89F4" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\FontManifest.json" />
+                    </Component>
+                    <Component Id="cmpB22BCD9EFB853D38668ABE777CBF404C" Guid="{52E3BA74-D511-49CB-BE61-9460DB3775B9}">
+                        <File Id="fil95F1B70B711016C2E2A74411F6B41801" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\NOTICES.Z" />
+                    </Component>
+                    <Directory Id="dir44DE80E5FFD251532250E7F4BB7B2821" Name="assets">
+                        <Component Id="cmpFC3A9316ED9D9116B46026B5A826B913" Guid="{ABB64861-1113-43C1-8114-E9D198039367}">
+                            <File Id="fil6D1DC07B4AB40B920A06B1592BF34E2A" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\actions.svg" />
+                        </Component>
+                        <Component Id="cmp303A5E6DB9A0CE90998A41CEB471A8C4" Guid="{8D489C8F-BF7B-43EE-9B96-0B7E93F2B0E0}">
+                            <File Id="fil1F888D7E4617FECD78D38B2456747A47" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\actions_mobile.svg" />
+                        </Component>
+                        <Component Id="cmpD4AEF1470FD61357A2E2205A45DB63BF" Guid="{D53D2093-2D27-4D68-A617-B62D2C219AD3}">
+                            <File Id="fil391A28E22B60F8ECB6AB5D6A6B68C16F" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\address_book.ttf" />
+                        </Component>
+                        <Component Id="cmp797820820658C411885E88C12C118207" Guid="{8927C75D-7D9F-4603-88B3-BC48F2466E21}">
+                            <File Id="filE072914EEBC0AF7C576AD0E20B62A125" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\android.svg" />
+                        </Component>
+                        <Component Id="cmp2E9A8FCD545C30F56CBE08A3D839132A" Guid="{C907F49A-474D-43C1-9A13-4E82A4B62316}">
+                            <File Id="fil5CF8A04FF88DDDCC0B2F10B0DB8749F3" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\arrow.svg" />
+                        </Component>
+                        <Component Id="cmpACF7BDD1B686F6CCA987B5EAE673B3C2" Guid="{FE603C0F-1955-48C4-8D28-E826FFCC458E}">
+                            <File Id="fil79026D75C314DF90C59C4EC851E3F5B3" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-apple.svg" />
+                        </Component>
+                        <Component Id="cmpB55EDE3E4717355AF15F837FF295355F" Guid="{A0E0A3DA-DFB8-456D-90B1-C3502387DE9D}">
+                            <File Id="filBFFC24327F59FCB0C51D919C103A9250" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-auth0.svg" />
+                        </Component>
+                        <Component Id="cmp87A9F420A671CC11219370D7FCE956B7" Guid="{78835A4E-B736-4596-A8CF-4A5A22F49EA6}">
+                            <File Id="fil5485B5B5C35FE822E1292563971D1CA6" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-azure.svg" />
+                        </Component>
+                        <Component Id="cmp5EFE10D1A68ABCA2FABFD2F601A1852F" Guid="{99E791E9-55F7-47E5-8518-75366C05F335}">
+                            <File Id="filFB2CA22A9A25247BBC0ABB9B47D8BCDA" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-default.svg" />
+                        </Component>
+                        <Component Id="cmp69A5563A7209361F31B764F3FB7747E0" Guid="{969F6DFC-BB83-4D4F-ABCD-8B889F47D29D}">
+                            <File Id="fil0D720CADDF3F84A24608DFBFEC084CD8" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-facebook.svg" />
+                        </Component>
+                        <Component Id="cmp541AF6AC3273C961D79621A80DE3EA8A" Guid="{CE645D7C-C950-430E-9AA6-57177B00E097}">
+                            <File Id="fil1F34BC978863670E20974351F4894429" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-github.svg" />
+                        </Component>
+                        <Component Id="cmp7FF20A791C94077A642B58F9ABBA598F" Guid="{4AF46A5D-F1DE-4C39-B5B4-88CC9E472289}">
+                            <File Id="fil3E4FECC233FE6630EE152A305C447BAA" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-gitlab.svg" />
+                        </Component>
+                        <Component Id="cmpDB25609E27145257EF626FE7C287A443" Guid="{9EBBA226-F565-4C63-B6C4-ED142ABE6A2A}">
+                            <File Id="filF9F7C3BB03DF798121CE3AA1F72B4FD1" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-google.svg" />
+                        </Component>
+                        <Component Id="cmp285EF11CE0FBA59393F31FA657A019C2" Guid="{061C8CD1-63BB-46E7-9C39-99D50531C45B}">
+                            <File Id="fil9252D256F4CEEDD57059C0F3AC5C6B93" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\auth-okta.svg" />
+                        </Component>
+                        <Component Id="cmpAE0AD68E7F48A5B8B7C84E7D959F1AFE" Guid="{7419F6C8-A11A-4E0A-8D7F-F761CCD511F0}">
+                            <File Id="fil53099BF869D7C8678C5F6A4332B2D160" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\call_end.svg" />
+                        </Component>
+                        <Component Id="cmpB51F47CD8F354E7347B4778A24AB9675" Guid="{439BAC08-5BD0-4E54-8597-351BC5778DA3}">
+                            <File Id="filB926ECB59ED96F384BB13DCCC9F84CE8" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\call_wait.svg" />
+                        </Component>
+                        <Component Id="cmpC2F59E9B9588E7D681642A631EED5994" Guid="{A70F4BA5-12B1-404B-9B23-542949109F14}">
+                            <File Id="fil62DF30F5EB519D107D636FE0F013E857" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\chat.svg" />
+                        </Component>
+                        <Component Id="cmp7CED50E47071F6C4115F1DF64B56C29B" Guid="{56B24DD4-5BED-463A-9DE0-8C95671741D9}">
+                            <File Id="fil74974B2DC7F77E7F663D0409B8940EC6" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\chat2.svg" />
+                        </Component>
+                        <Component Id="cmpF50D8EEFCDF6718F0434235711C35BAA" Guid="{19EFDB9B-F6E7-4B9F-9D77-442DB19A64BF}">
+                            <File Id="filED44EDBA2BB3B0DB39A7753DACA049D5" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\checkbox-outline.svg" />
+                        </Component>
+                        <Component Id="cmpE8E781F145371454DD7F30AEB3698A51" Guid="{AB9E247A-094C-4CBF-B9E4-DCE6CBFD4A28}">
+                            <File Id="fil67E743A3A279E8A4484DEC6F28E7B8BA" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\chevron_up_chevron_down.svg" />
+                        </Component>
+                        <Component Id="cmp40FDF6CABAE6D0B270E372273CAC9240" Guid="{C5F4020A-6234-43AB-920A-1F926CAB8CE2}">
+                            <File Id="filB7CF6AB14C65255EAA4528D36760ABE6" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\close.svg" />
+                        </Component>
+                        <Component Id="cmp9FC60B82CF632FD08C3FEF09A6B14675" Guid="{2DDE333A-702B-4793-B2BE-0EF1853BD312}">
+                            <File Id="fil91316B8FD0F95A430513807C17E46396" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\device_group.ttf" />
+                        </Component>
+                        <Component Id="cmpADA96A935381696DA037094D40895D19" Guid="{A61A95B3-42FD-42C6-B1FA-97D958AD7ACB}">
+                            <File Id="filB0B2055CD18F40E73921D815C7C73DB1" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\display.svg" />
+                        </Component>
+                        <Component Id="cmp47B6EACC8EF5575AB6AA9AAA4AA5C34E" Guid="{7267D034-E23B-4A76-843A-F03483E18D50}">
+                            <File Id="fil8BA61B190CA1983BB74851EFDBFB1D67" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\dots.svg" />
+                        </Component>
+                        <Component Id="cmp2B4734397B0D451C054DC1417C2C0ACC" Guid="{F2F9E8CC-B9AF-466D-B61D-84DBF86B542A}">
+                            <File Id="fil66F07DAF0E76315F98AEB4BCE11F063B" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\file.svg" />
+                        </Component>
+                        <Component Id="cmp2A3B5AF2E9A6330D6A3E98B8430AA0AA" Guid="{C722F0AB-1AA6-473C-BB4B-F690E7ACF25D}">
+                            <File Id="fil9A6C8C64231AC4C0D8A22B30D8DBAF84" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\file_transfer.svg" />
+                        </Component>
+                        <Component Id="cmpA81520D86B7303E7115B9792BFAF49D9" Guid="{92D89A93-DED9-4B2F-896A-E5961793210D}">
+                            <File Id="fil7AE9F4D756BC0C49B343FBBCDD9DAA91" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\folder.svg" />
+                        </Component>
+                        <Component Id="cmp432C5F89E72F366603F7C9F2CEFCD3BD" Guid="{1B3C8A60-072E-4A88-BA9A-C1836BCB3F6D}">
+                            <File Id="fil57971A2093C60BB54E398B4A8ED813EA" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\folder_new.svg" />
+                        </Component>
+                        <Component Id="cmpFC8A5769461C691208DA885EB8BBC2BC" Guid="{CB49DDFC-7744-4B07-AEDC-E066AE1A0955}">
+                            <File Id="fil2AEDBB76CD394B43F63ED3B1C67B2FAE" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\fullscreen.svg" />
+                        </Component>
+                        <Component Id="cmp841C7749E19CD5239777B9ACF98F53F5" Guid="{D1400BD7-919C-473B-9F86-6DF255FFD577}">
+                            <File Id="fil7D6C13CBAA1CF2613D3EA1D0BD75C789" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\fullscreen_exit.svg" />
+                        </Component>
+                        <Component Id="cmpE9CE276373CDAED94144ED985869995E" Guid="{E813A3DF-4331-461F-965D-50E7E8FD8C97}">
+                            <File Id="fil7ED7B86E9CFDF2BEFC5FB872D8FE5C90" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\gestures.ttf" />
+                        </Component>
+                        <Component Id="cmpDEB937FF4771E02D9A714994F01935FC" Guid="{802BBB47-7F7D-44FA-9DE4-1782F4AF565B}">
+                            <File Id="fil288200F073D1C48959DEF1647DFDD544" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\home.svg" />
+                        </Component>
+                        <Component Id="cmp56FB7E62A3E36F763EE23311BEA4257B" Guid="{7D6948A3-510B-45FF-866B-5A318EAF1BB0}">
+                            <File Id="fil81068460EF0E2EADB3F81C545820AFA0" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\icon.png" />
+                        </Component>
+                        <Component Id="cmp941FC27A44C366F85B3AFD610A820AF6" Guid="{79571C2E-6BD7-495B-AAE2-6380520B7AE0}">
+                            <File Id="fil79DA34B999635A20E264EA277582ED0B" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\icon.svg" />
+                        </Component>
+                        <Component Id="cmp29E36E82147B8C3ED3F7EAD037FF14F8" Guid="{855CA058-A599-4387-9AB9-FDF9BE842C50}">
+                            <File Id="fil9AA14309688586CDA5E489AFDC375CD0" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\insecure.svg" />
+                        </Component>
+                        <Component Id="cmpC5998ACC88E1EA09BDEC33BA300C90F0" Guid="{1919837B-B1CD-43D5-BB0E-ACC5F2417981}">
+                            <File Id="fil412DB1945F4DC85B68C395B3771A2283" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\insecure_relay.svg" />
+                        </Component>
+                        <Component Id="cmpA950D9282478F9D9937F015F2AB37C19" Guid="{EB6E50BD-FC9F-40EC-B97E-701EC553D491}">
+                            <File Id="fil7BD7E79C67BDD3560B491D27685A4575" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\kb_layout_iso.svg" />
+                        </Component>
+                        <Component Id="cmpE83D6266C0F68EC81775E5C4826E5B8B" Guid="{AF675706-87BD-4209-BFBA-93BC328C1A31}">
+                            <File Id="fil16F85A39F0097A8A56FF5449C31816F9" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\kb_layout_not_iso.svg" />
+                        </Component>
+                        <Component Id="cmpF12B19CBC73C7878DD92B6A2A00CF86F" Guid="{A3412665-DA71-4A95-9376-EFBD4A92E194}">
+                            <File Id="filD6046F3290AFBF19F89C1FD1457DD387" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\keyboard_mouse.svg" />
+                        </Component>
+                        <Component Id="cmp9DC12B34F0F1EB9C24C40F4FBD7D2F00" Guid="{16C8EE59-94D0-4D10-81A5-CC0FAC8C0522}">
+                            <File Id="fil49080DC239668A812DA534A24C1135E9" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\linux.svg" />
+                        </Component>
+                        <Component Id="cmp4272783069284D4EC162948E6D07655E" Guid="{BFB79CB2-7545-42B9-B6C5-268B4E72D873}">
+                            <File Id="fil1848C43C2133BE22FACF36A1A23AA105" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\logo.png" />
+                        </Component>
+                        <Component Id="cmp3FFD1AD08BEE8352504F42C36EC0DFC4" Guid="{C3FFA088-99B7-4A12-85D0-11163BB4FA4D}">
+                            <File Id="filB7D6C9923C9CA243FBE0D61BF10E392E" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\mac.svg" />
+                        </Component>
+                        <Component Id="cmp6FD5B91AA6EBE1D73989C5E70430C08A" Guid="{882A9AEC-637E-4C65-A834-F75F92F33769}">
+                            <File Id="fil445DFF8E726E46A8D64C909494BB4681" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\message_24dp_5F6368.svg" />
+                        </Component>
+                        <Component Id="cmpA56F1AA3521F00A19BBFF059BA0CE91C" Guid="{9189C1C9-90C8-4D5A-A2E6-368A2FF444AD}">
+                            <File Id="fil124604ED1B36A4D6FF222C57042128B6" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\more.ttf" />
+                        </Component>
+                        <Component Id="cmp856C66705E8E89009C748DA594E4DB8D" Guid="{0B189B82-809D-4B99-BC59-FAEC57390A77}">
+                            <File Id="fil71EFD4C7E620A1B29634E61D8DEBF56E" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\peer_searchbar.ttf" />
+                        </Component>
+                        <Component Id="cmpE4F837320BD5FD0F5AA34EDFD3F50BC3" Guid="{4338D2BB-B65A-40CE-8780-863A661F30DF}">
+                            <File Id="filA311156C2FCD4055C6AE9CEC0B542315" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\pinned.svg" />
+                        </Component>
+                        <Component Id="cmp3BA9660144FDD0CED629042A3575A46E" Guid="{4C37279E-4B09-4F6D-8743-582658F10C54}">
+                            <File Id="fil00F8BF743C8199BFB5C79FF5F386648C" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\rec.svg" />
+                        </Component>
+                        <Component Id="cmpCB00F6110854AF0BF6C2B466E2819EC8" Guid="{4B33B806-FEC4-40C9-8E8B-3F3F9786DB18}">
+                            <File Id="filF8A422C1218037BB7570A06981A0E502" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\record_screen.svg" />
+                        </Component>
+                        <Component Id="cmpFA2D45F827280CA0E10CF88C37A903C9" Guid="{B37776B3-9177-4492-B19B-91FD50718E08}">
+                            <File Id="filB966D5749DDE79D893F3237C77E7EEED" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\refresh.svg" />
+                        </Component>
+                        <Component Id="cmp965F7AD1C174C3C0FD8A84B2FDF3850F" Guid="{C045BB38-BC08-4168-9EA3-8C15211264E0}">
+                            <File Id="filA7BF64A088D3816216AE97422E5312DE" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\scam.png" />
+                        </Component>
+                        <Component Id="cmp6C0A623DC7DE37C36DA24285D53A3A2D" Guid="{C894E4DF-E527-4A84-9AAA-D38936C8842D}">
+                            <File Id="fil477BFC11E01A497A49FED17AA857403C" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\screen.svg" />
+                        </Component>
+                        <Component Id="cmp52FDDC7E3C1A30C3F161A81E0555B6FE" Guid="{B32115CF-72DB-4F84-BE57-172A967131F2}">
+                            <File Id="filFFE8FC102AB60AED1155E025C6E4618C" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\search.svg" />
+                        </Component>
+                        <Component Id="cmp2980B17461D01D06C99981C9156AE3D7" Guid="{9AD19F6B-7181-4D96-91F8-91662DD6268C}">
+                            <File Id="filCEDFB0D2E1B03DA68E3B75A95CF63C6E" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\secure.svg" />
+                        </Component>
+                        <Component Id="cmpC3739B5AB1451EED0B27ABBAC9BC8303" Guid="{38ADE6F6-72DC-4EFD-A8FD-C8BC0FDA1AE8}">
+                            <File Id="fil5E679F96733B65787EAC4C9DB510E3FE" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\secure_relay.svg" />
+                        </Component>
+                        <Component Id="cmp44C91F3A4744F3997BBBE0A1A0161D3A" Guid="{CA7BE00E-11EF-4861-8B22-B017DA02A9F0}">
+                            <File Id="fil8FBF4E1A54B8F4720D0F8F67F78C0582" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\tabbar.ttf" />
+                        </Component>
+                        <Component Id="cmp553F2142A9235F6B37EE2C6FBE1525C0" Guid="{089FC16D-B40F-46AB-8A29-2E9567FA360C}">
+                            <File Id="fil40BADE607C7BDE83A0F344183CE25B89" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\transfer.svg" />
+                        </Component>
+                        <Component Id="cmp2981CD6DCFA00C13ADED066D4FB88A9D" Guid="{9C529D13-3223-493B-9F58-C802A611FD2F}">
+                            <File Id="filE46809FBB42980C8FDB1F9BE19BD8BB4" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\trash.svg" />
+                        </Component>
+                        <Component Id="cmpAC053B1C56E5599DB437B35AC112E58E" Guid="{DC9983B3-38D1-4146-923F-22F089ECBA07}">
+                            <File Id="fil6C64A4EA4B8F424CFB93796417B708D8" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\unpinned.svg" />
+                        </Component>
+                        <Component Id="cmp75649852A3A89DFFE3AEA8ED193E8356" Guid="{0F338E95-4A69-4F29-8904-24F205EEC332}">
+                            <File Id="filD7BCCD12A9846C86F453349A6168BB7F" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\voice_call.svg" />
+                        </Component>
+                        <Component Id="cmp2B044C5AD1F0448179E072018EDEE25F" Guid="{2781EC51-E184-4467-9E63-A3E6E004CADA}">
+                            <File Id="filBD7CAB68C2821EA36EFBE828F1F84F13" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\voice_call_waiting.svg" />
+                        </Component>
+                        <Component Id="cmp4E357CED2326EFF1A73DDB1BBCCAAB71" Guid="{0436FB6B-B4A4-47C1-B3A4-F05C84486BFA}">
+                            <File Id="fil79BB237F7EF4AFAAE9E74B88AFC29E89" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\assets\win.svg" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="dirE2A82CA30E4E1381D520C8FF40996653" Name="fonts">
+                        <Component Id="cmp9475753282C5250DEC233DF924257EDD" Guid="{EE88E65B-50C7-43EF-A90C-ACFAFF316D24}">
+                            <File Id="fil95709FE501C331265C6CAAD00C2EA783" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\fonts\MaterialIcons-Regular.otf" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="dirE3A5CD763BAF580FDB3696619F614D3F" Name="packages">
+                        <Directory Id="dir26A880A4C48EABABEFB76F4F9BE6509F" Name="dash_chat_2">
+                            <Directory Id="dir682CC0CEA7EE39F94333655751F35DEA" Name="assets">
+                                <Component Id="cmp817EBE9909D17181EDBC1970B60C0448" Guid="{5815719D-4440-466E-AC52-D69E2D3CFF03}">
+                                    <File Id="filB980406954CA80B38034A1D424267A35" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\packages\dash_chat_2\assets\placeholder.png" />
+                                </Component>
+                                <Component Id="cmp739058925CD5E92BB2DB08ACF5DC675D" Guid="{AEDDC536-776E-4CD0-9749-4076B7A024DA}">
+                                    <File Id="fil1DCDCEE20FBFADAC2BA0D28075B7E55D" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\packages\dash_chat_2\assets\profile_placeholder.png" />
+                                </Component>
+                            </Directory>
+                        </Directory>
+                        <Directory Id="dir794A47B7D15A33D63F6370D2937DCBD2" Name="flex_color_picker">
+                            <Directory Id="dir8B67397669D56FAC3379776F9F1B6F64" Name="assets">
+                                <Component Id="cmpB1977A0B9CABDFDBA9044FA7604B477C" Guid="{29096E84-6FB2-4565-A5CA-C43E54F22AA9}">
+                                    <File Id="fil47FF0CB25DF21DED3692916C809C05A6" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\packages\flex_color_picker\assets\opacity.png" />
+                                </Component>
+                            </Directory>
+                        </Directory>
+                        <Directory Id="dir3D4B0F90BD0045CFF70352D459F31386" Name="wakelock_plus">
+                            <Directory Id="dir2BCD4EA8284625AF818A43D7D5D9E2FF" Name="assets">
+                                <Component Id="cmpA55BE71F05C42DBABFC310558A136E73" Guid="{4124C85D-13AE-449B-AFC7-D3A011FDB1A8}">
+                                    <File Id="filA488ED451B429696D4B764A2BF9D008E" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\packages\wakelock_plus\assets\no_sleep.js" />
+                                </Component>
+                            </Directory>
+                        </Directory>
+                        <Directory Id="dir76993AEF82FE6B16ABCBC8039CB696BC" Name="window_manager">
+                            <Directory Id="dirA60AD7FF5E838611FEDF9115DB041B6A" Name="images">
+                                <Component Id="cmp8DF768FC920D09B64191181F68492C64" Guid="{DD98419C-2312-4A03-BD0A-6BA5EA3A65E8}">
+                                    <File Id="fil99F7CB641600398B5BF5C01BF8622122" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_close.png" />
+                                </Component>
+                                <Component Id="cmp990E936D8AC6A78698AAD92A36E67CD2" Guid="{FDD4F137-BF07-477D-971F-EB1CD0696A13}">
+                                    <File Id="filE2354ACBC256062FF3130197DA427EBD" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_maximize.png" />
+                                </Component>
+                                <Component Id="cmpECBC23ADEC529A04B12090B2C1EA924D" Guid="{7E418055-F10B-4BA4-B953-1D5EADDC178B}">
+                                    <File Id="filE8C7E6BCADDA13E0C6354B630A68012E" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_minimize.png" />
+                                </Component>
+                                <Component Id="cmpEBAC1ACA0F746E752314A795635B427F" Guid="{18F60953-06EC-4B72-A448-84A9E8FF6115}">
+                                    <File Id="filBB10649E6C8E54DB790FB81ED36ED3A6" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_unmaximize.png" />
+                                </Component>
+                            </Directory>
+                        </Directory>
+                    </Directory>
+                    <Directory Id="dir5C01D37FD138B424B270832E735CB541" Name="shaders">
+                        <Component Id="cmpB754D63122F49081C0DAAE0074FBD9C1" Guid="{D5D7377F-4458-4C3F-A506-6FA1931F5EC1}">
+                            <File Id="filFA5374F8D6DDBC810796AB1AB906FB74" KeyPath="yes" Source="$(var.SourceDir)\data\flutter_assets\shaders\ink_sparkle.frag" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="AppFiles">
+            <ComponentRef Id="cmp2CD06D85712105D7F5156BF1A0845776" />
+            <ComponentRef Id="cmp012F7070E69EFF4320E139815882BEE5" />
+            <ComponentRef Id="cmpE625E77F522637C094C5867D5E084A27" />
+            <ComponentRef Id="cmpF6746A9DA97FD0A8BEB6B4AD93DBAF2E" />
+            <ComponentRef Id="cmp56CF220A0F2463F9A5E85A05D1E79C99" />
+            <ComponentRef Id="cmpDC22F85144003CB2F05080B8CF79FC46" />
+            <ComponentRef Id="cmp6008A86AE138BD45314608B385266AA3" />
+            <ComponentRef Id="cmpFC51E889A92B742B5F953C34F614A7BE" />
+            <ComponentRef Id="cmpE1F819E9F0DE12052216D6D9563E4EF5" />
+            <ComponentRef Id="cmp847F16B6E444F4EF34D3DE5F4DDAA8F5" />
+            <ComponentRef Id="cmpD25B21823450CD471774673B7AA06196" />
+            <ComponentRef Id="cmp39E7414C8679E28554E4A9F5B3298D3E" />
+            <ComponentRef Id="cmp70D7EF34E9B6D1081400F0FC7644524D" />
+            <ComponentRef Id="cmp9320B2F1ACD0D9B220E969B0442D1F9A" />
+            <ComponentRef Id="cmpCF83D7D65587D05A151D1E25702E167F" />
+            <ComponentRef Id="cmp0E0DCB81807E433F9DBCEB0D089B25B5" />
+            <ComponentRef Id="cmp362972CB336FCADAB6FAD4E58ABB50C0" />
+            <ComponentRef Id="cmp75131C7E850BF8649161906B63E97A22" />
+            <ComponentRef Id="cmp7A9B0136F23F84A4A09D4D0E28D8636B" />
+            <ComponentRef Id="cmpB22BCD9EFB853D38668ABE777CBF404C" />
+            <ComponentRef Id="cmpFC3A9316ED9D9116B46026B5A826B913" />
+            <ComponentRef Id="cmp303A5E6DB9A0CE90998A41CEB471A8C4" />
+            <ComponentRef Id="cmpD4AEF1470FD61357A2E2205A45DB63BF" />
+            <ComponentRef Id="cmp797820820658C411885E88C12C118207" />
+            <ComponentRef Id="cmp2E9A8FCD545C30F56CBE08A3D839132A" />
+            <ComponentRef Id="cmpACF7BDD1B686F6CCA987B5EAE673B3C2" />
+            <ComponentRef Id="cmpB55EDE3E4717355AF15F837FF295355F" />
+            <ComponentRef Id="cmp87A9F420A671CC11219370D7FCE956B7" />
+            <ComponentRef Id="cmp5EFE10D1A68ABCA2FABFD2F601A1852F" />
+            <ComponentRef Id="cmp69A5563A7209361F31B764F3FB7747E0" />
+            <ComponentRef Id="cmp541AF6AC3273C961D79621A80DE3EA8A" />
+            <ComponentRef Id="cmp7FF20A791C94077A642B58F9ABBA598F" />
+            <ComponentRef Id="cmpDB25609E27145257EF626FE7C287A443" />
+            <ComponentRef Id="cmp285EF11CE0FBA59393F31FA657A019C2" />
+            <ComponentRef Id="cmpAE0AD68E7F48A5B8B7C84E7D959F1AFE" />
+            <ComponentRef Id="cmpB51F47CD8F354E7347B4778A24AB9675" />
+            <ComponentRef Id="cmpC2F59E9B9588E7D681642A631EED5994" />
+            <ComponentRef Id="cmp7CED50E47071F6C4115F1DF64B56C29B" />
+            <ComponentRef Id="cmpF50D8EEFCDF6718F0434235711C35BAA" />
+            <ComponentRef Id="cmpE8E781F145371454DD7F30AEB3698A51" />
+            <ComponentRef Id="cmp40FDF6CABAE6D0B270E372273CAC9240" />
+            <ComponentRef Id="cmp9FC60B82CF632FD08C3FEF09A6B14675" />
+            <ComponentRef Id="cmpADA96A935381696DA037094D40895D19" />
+            <ComponentRef Id="cmp47B6EACC8EF5575AB6AA9AAA4AA5C34E" />
+            <ComponentRef Id="cmp2B4734397B0D451C054DC1417C2C0ACC" />
+            <ComponentRef Id="cmp2A3B5AF2E9A6330D6A3E98B8430AA0AA" />
+            <ComponentRef Id="cmpA81520D86B7303E7115B9792BFAF49D9" />
+            <ComponentRef Id="cmp432C5F89E72F366603F7C9F2CEFCD3BD" />
+            <ComponentRef Id="cmpFC8A5769461C691208DA885EB8BBC2BC" />
+            <ComponentRef Id="cmp841C7749E19CD5239777B9ACF98F53F5" />
+            <ComponentRef Id="cmpE9CE276373CDAED94144ED985869995E" />
+            <ComponentRef Id="cmpDEB937FF4771E02D9A714994F01935FC" />
+            <ComponentRef Id="cmp56FB7E62A3E36F763EE23311BEA4257B" />
+            <ComponentRef Id="cmp941FC27A44C366F85B3AFD610A820AF6" />
+            <ComponentRef Id="cmp29E36E82147B8C3ED3F7EAD037FF14F8" />
+            <ComponentRef Id="cmpC5998ACC88E1EA09BDEC33BA300C90F0" />
+            <ComponentRef Id="cmpA950D9282478F9D9937F015F2AB37C19" />
+            <ComponentRef Id="cmpE83D6266C0F68EC81775E5C4826E5B8B" />
+            <ComponentRef Id="cmpF12B19CBC73C7878DD92B6A2A00CF86F" />
+            <ComponentRef Id="cmp9DC12B34F0F1EB9C24C40F4FBD7D2F00" />
+            <ComponentRef Id="cmp4272783069284D4EC162948E6D07655E" />
+            <ComponentRef Id="cmp3FFD1AD08BEE8352504F42C36EC0DFC4" />
+            <ComponentRef Id="cmp6FD5B91AA6EBE1D73989C5E70430C08A" />
+            <ComponentRef Id="cmpA56F1AA3521F00A19BBFF059BA0CE91C" />
+            <ComponentRef Id="cmp856C66705E8E89009C748DA594E4DB8D" />
+            <ComponentRef Id="cmpE4F837320BD5FD0F5AA34EDFD3F50BC3" />
+            <ComponentRef Id="cmp3BA9660144FDD0CED629042A3575A46E" />
+            <ComponentRef Id="cmpCB00F6110854AF0BF6C2B466E2819EC8" />
+            <ComponentRef Id="cmpFA2D45F827280CA0E10CF88C37A903C9" />
+            <ComponentRef Id="cmp965F7AD1C174C3C0FD8A84B2FDF3850F" />
+            <ComponentRef Id="cmp6C0A623DC7DE37C36DA24285D53A3A2D" />
+            <ComponentRef Id="cmp52FDDC7E3C1A30C3F161A81E0555B6FE" />
+            <ComponentRef Id="cmp2980B17461D01D06C99981C9156AE3D7" />
+            <ComponentRef Id="cmpC3739B5AB1451EED0B27ABBAC9BC8303" />
+            <ComponentRef Id="cmp44C91F3A4744F3997BBBE0A1A0161D3A" />
+            <ComponentRef Id="cmp553F2142A9235F6B37EE2C6FBE1525C0" />
+            <ComponentRef Id="cmp2981CD6DCFA00C13ADED066D4FB88A9D" />
+            <ComponentRef Id="cmpAC053B1C56E5599DB437B35AC112E58E" />
+            <ComponentRef Id="cmp75649852A3A89DFFE3AEA8ED193E8356" />
+            <ComponentRef Id="cmp2B044C5AD1F0448179E072018EDEE25F" />
+            <ComponentRef Id="cmp4E357CED2326EFF1A73DDB1BBCCAAB71" />
+            <ComponentRef Id="cmp9475753282C5250DEC233DF924257EDD" />
+            <ComponentRef Id="cmp817EBE9909D17181EDBC1970B60C0448" />
+            <ComponentRef Id="cmp739058925CD5E92BB2DB08ACF5DC675D" />
+            <ComponentRef Id="cmpB1977A0B9CABDFDBA9044FA7604B477C" />
+            <ComponentRef Id="cmpA55BE71F05C42DBABFC310558A136E73" />
+            <ComponentRef Id="cmp8DF768FC920D09B64191181F68492C64" />
+            <ComponentRef Id="cmp990E936D8AC6A78698AAD92A36E67CD2" />
+            <ComponentRef Id="cmpECBC23ADEC529A04B12090B2C1EA924D" />
+            <ComponentRef Id="cmpEBAC1ACA0F746E752314A795635B427F" />
+            <ComponentRef Id="cmpB754D63122F49081C0DAAE0074FBD9C1" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

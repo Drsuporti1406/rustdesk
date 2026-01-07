@@ -2689,6 +2689,39 @@ if exist \"{tray_shortcut}\" del /f /q \"{tray_shortcut}\"
     std::process::exit(0);
 }
 
+pub fn install_service_silent() -> bool {
+    log::info!("Installing service (silent)...");
+    let _installing = crate::platform::InstallingService::new();
+    let (_, _, _, exe) = get_install_info();
+    let tmp_path = std::env::temp_dir().to_string_lossy().to_string();
+    let tray_shortcut = get_tray_shortcut(&exe, &tmp_path).unwrap_or_default();
+    let filter = format!(" /FI \"PID ne {}\"", get_current_pid());
+    Config::set_option("stop-service".into(), "".into());
+    crate::ipc::EXIT_RECV_CLOSE.store(false, Ordering::Relaxed);
+    let cmds = format!(
+        "
+chcp 65001
+taskkill /F /IM {app_name}.exe{filter}
+cscript \"{tray_shortcut}\"
+copy /Y \"{tmp_path}\\{app_name} Tray.lnk\" \"%PROGRAMDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\\"
+{import_config}
+{create_service}
+if exist \"{tray_shortcut}\" del /f /q \"{tray_shortcut}\"
+    ",
+        app_name = crate::get_app_name(),
+        import_config = get_import_config(&exe),
+        create_service = get_create_service(&exe),
+    );
+    if let Err(err) = run_cmds(cmds, false, "install") {
+        Config::set_option("stop-service".into(), "Y".into());
+        crate::ipc::EXIT_RECV_CLOSE.store(true, Ordering::Relaxed);
+        log::debug!("{err}");
+        return true;
+    }
+    run_after_run_cmds(true);
+    std::process::exit(0);
+}
+
 pub fn update_me(debug: bool) -> ResultType<()> {
     let app_name = crate::get_app_name();
     let src_exe = std::env::current_exe()?.to_string_lossy().to_string();
@@ -2937,9 +2970,15 @@ fn run_after_run_cmds(silent: bool) {
             .args(&["/c", "timeout", "/t", "2", "&", &format!("{exe}")])
             .creation_flags(winapi::um::winbase::CREATE_NO_WINDOW)
             .spawn());
-    }
-    if Config::get_option("stop-service") != "Y" {
-        allow_err!(std::process::Command::new(&exe).arg("--tray").spawn());
+        if Config::get_option("stop-service") != "Y" {
+            allow_err!(std::process::Command::new(&exe).arg("--tray").spawn());
+        }
+    } else if Config::get_option("stop-service") != "Y" {
+        // On silent installs, avoid launching any UI immediately after MSI finishes.
+        // A startup shortcut is still created during install_service().
+        // This keeps the installer non-intrusive while still enabling tray on next login.
+        // (No-op)
+        let _ = &exe;
     }
     std::thread::sleep(std::time::Duration::from_millis(300));
 }
