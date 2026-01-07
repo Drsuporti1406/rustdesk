@@ -5,7 +5,8 @@
   <Bundle Name="DrSuporti Remote"
           Version="$(var.ProductVersion)"
           Manufacturer="DrSuporti"
-          UpgradeCode="{5A4A1E1C-2D2B-4D0D-8F79-0123456789AB}">
+          UpgradeCode="{5A4A1E1C-2D2B-4D0D-8F79-0123456789AB}"
+          IconSourceFile="$(var.BundleIconPath)">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
         LicenseFile="license.rtf"

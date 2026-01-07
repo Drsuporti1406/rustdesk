@@ -11,6 +11,7 @@ $outDir = Join-Path $PSScriptRoot 'output'
 $msiPath = Join-Path $outDir 'DrSuportiRemote.msi'
 $vcRedistPath = Join-Path $PSScriptRoot 'third_party\\vc_redist.x64.exe'
 $licensePath = Join-Path $PSScriptRoot 'license.rtf'
+$bundleIconPath = Join-Path $PSScriptRoot 'package_flutter\\icon.ico'
 
 if (!(Test-Path $msiPath)) {
   throw "MSI not found at: $msiPath. Build it first with build_msi_flutter.ps1"
@@ -20,6 +21,9 @@ if (!(Test-Path $vcRedistPath)) {
 }
 if (!(Test-Path $licensePath)) {
   throw "license.rtf not found at: $licensePath. Provide a license file for the bundle UI."
+}
+if (!(Test-Path $bundleIconPath)) {
+  throw "bundle icon not found at: $bundleIconPath. Build MSI first to generate package_flutter\\icon.ico"
 }
 
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
@@ -64,7 +68,7 @@ try {
   if (-not $candle) { throw "candle.exe (WiX) not found in PATH" }
   if (-not $light) { throw "light.exe (WiX) not found in PATH" }
 
-  & candle.exe Bundle_flutter.wxs "-dProductVersion=$productVersion" "-dVcRedistPath=$vcRedistPath" "-dMsiPath=$msiPath" -out ".\\" -ext WixBalExtension -ext WixUtilExtension | Tee-Object -FilePath candle_output_bundle.txt | Out-Null
+  & candle.exe Bundle_flutter.wxs "-dProductVersion=$productVersion" "-dVcRedistPath=$vcRedistPath" "-dMsiPath=$msiPath" "-dBundleIconPath=$bundleIconPath" -out ".\\" -ext WixBalExtension -ext WixUtilExtension | Tee-Object -FilePath candle_output_bundle.txt | Out-Null
   if ($LASTEXITCODE -ne 0) { throw "candle.exe failed with exit code $LASTEXITCODE. See: $(Join-Path $PSScriptRoot 'candle_output_bundle.txt')" }
 
   $bundleTmp = (Join-Path $outDir 'DrSuportiRemote.bundle.tmp.exe')

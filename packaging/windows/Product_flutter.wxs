@@ -31,10 +31,28 @@
       Return="check"
       Impersonate="no"
     />
+    <CustomAction
+      Id="ca_create_shortcuts"
+      Directory="TARGETDIR"
+      ExeCommand="cscript //nologo &quot;[INSTALLFOLDER]create_shortcuts.vbs&quot;"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no"
+    />
+    <CustomAction
+      Id="ca_remove_shortcuts"
+      Directory="TARGETDIR"
+      ExeCommand="cscript //nologo &quot;[INSTALLFOLDER]remove_shortcuts.vbs&quot;"
+      Execute="deferred"
+      Return="check"
+      Impersonate="no"
+    />
 
     <InstallExecuteSequence>
       <Custom Action="ca_install_service" After="InstallFiles">NOT Installed</Custom>
       <Custom Action="ca_uninstall_service" Before="RemoveFiles">REMOVE="ALL"</Custom>
+      <Custom Action="ca_create_shortcuts" After="InstallFiles">NOT Installed</Custom>
+      <Custom Action="ca_remove_shortcuts" Before="RemoveFiles">REMOVE="ALL"</Custom>
     </InstallExecuteSequence>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -83,6 +101,11 @@
                        Type="string"
                        Value="[INSTALLFOLDER]"
                        KeyPath="yes"/>
+        <RegistryValue Root="HKLM"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
+                       Name="DisplayIcon"
+                       Type="string"
+                       Value="&quot;[INSTALLFOLDER]icon.ico&quot;"/>
         <RegistryValue Root="HKLM"
                        Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
                        Name="BuildDate"

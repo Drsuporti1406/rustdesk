@@ -24,6 +24,34 @@ New-Item -ItemType Directory -Force -Path $pkgDir | Out-Null
 
 Copy-Item -Force -Recurse (Join-Path $releaseDir '*') $pkgDir
 
+# Create shortcut scripts inside the package (keeps CustomAction commands short).
+$createVbs = Join-Path $pkgDir 'create_shortcuts.vbs'
+$removeVbs = Join-Path $pkgDir 'remove_shortcuts.vbs'
+@'
+Set ws = CreateObject("WScript.Shell")
+Set fso = CreateObject("Scripting.FileSystemObject")
+sm = ws.ExpandEnvironmentStrings("%ProgramData%") & "\Microsoft\Windows\Start Menu\Programs\DrSuporti Remote"
+If Not fso.FolderExists(sm) Then fso.CreateFolder(sm)
+Set lnk = ws.CreateShortcut(sm & "\DrSuporti Remote.lnk")
+lnk.TargetPath = ws.ExpandEnvironmentStrings("%ProgramFiles%") & "\DrSuporti Remote\rustdesk.exe"
+lnk.WorkingDirectory = ws.ExpandEnvironmentStrings("%ProgramFiles%") & "\DrSuporti Remote"
+lnk.IconLocation = lnk.TargetPath
+lnk.Save
+desk = ws.ExpandEnvironmentStrings("%Public%") & "\Desktop\DrSuporti Remote.lnk"
+Set lnk2 = ws.CreateShortcut(desk)
+lnk2.TargetPath = lnk.TargetPath
+lnk2.WorkingDirectory = lnk.WorkingDirectory
+lnk2.IconLocation = lnk.TargetPath
+lnk2.Save
+'@ | Set-Content -LiteralPath $createVbs -Encoding Ascii
+@'
+Set fso = CreateObject("Scripting.FileSystemObject")
+sm = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%ProgramData%") & "\Microsoft\Windows\Start Menu\Programs\DrSuporti Remote\DrSuporti Remote.lnk"
+desk = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%Public%") & "\Desktop\DrSuporti Remote.lnk"
+If fso.FileExists(sm) Then fso.DeleteFile(sm)
+If fso.FileExists(desk) Then fso.DeleteFile(desk)
+'@ | Set-Content -LiteralPath $removeVbs -Encoding Ascii
+
 # Ensure installer has a stable icon for ARP + shortcuts.
 $pkgIconIco = Join-Path $pkgDir 'icon.ico'
 $icoCandidates = @(
