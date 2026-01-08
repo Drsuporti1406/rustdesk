@@ -61,13 +61,16 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     super.build(context);
     final isIncomingOnly = bind.isIncomingOnly();
     final isLite = kAppLite;
+    if (isLite) {
+      return _buildBlock(child: buildLeftPane(context));
+    }
     return _buildBlock(
         child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildLeftPane(context),
-        if (!isIncomingOnly && !isLite) const VerticalDivider(width: 1),
-        if (!isIncomingOnly && !isLite) Expanded(child: buildRightPane(context)),
+        if (!isIncomingOnly) const VerticalDivider(width: 1),
+        if (!isIncomingOnly) Expanded(child: buildRightPane(context)),
       ],
     ));
   }
@@ -80,6 +83,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   Widget buildLeftPane(BuildContext context) {
     final isIncomingOnly = bind.isIncomingOnly();
     final isOutgoingOnly = bind.isOutgoingOnly();
+    final isLite = kAppLite;
+    final liteBottomPadding = isLite ? 90.0 : 0.0;
     final children = <Widget>[
       if (!isOutgoingOnly) buildPresetPasswordWarning(),
       Align(
@@ -127,51 +132,72 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     return ChangeNotifierProvider.value(
       value: gFFI.serverModel,
       child: Container(
-        width: isIncomingOnly ? 280.0 : 200.0,
+        width: (isIncomingOnly || isLite) ? 280.0 : 200.0,
         color: Theme.of(context).colorScheme.background,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                SingleChildScrollView(
-                  controller: _leftPaneScrollController,
-                  child: Column(
-                    key: _childKey,
-                    children: children,
-                  ),
-                ),
-                Expanded(child: Container())
-              ],
-            ),
-            if (isOutgoingOnly)
-              Positioned(
-                bottom: 6,
-                left: 12,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: InkWell(
-                    child: Obx(
-                      () => Icon(
-                        Icons.settings,
-                        color: _editHover.value
-                            ? textColor
-                            : Colors.grey.withOpacity(0.5),
-                        size: 22,
+        child: isLite
+            ? Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: _leftPaneScrollController,
+                      child: Column(
+                        key: _childKey,
+                        children: children,
                       ),
                     ),
-                    onTap: () => {
-                      if (DesktopSettingPage.tabKeys.isNotEmpty)
-                        {
-                          DesktopSettingPage.switch2page(
-                              DesktopSettingPage.tabKeys[0])
-                        }
-                    },
-                    onHover: (value) => _editHover.value = value,
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: OnlineStatusWidget(
+                      showSetupTip: false,
+                      showStartService: false,
+                    ),
+                  ),
+                ],
               )
-          ],
-        ),
+            : Stack(
+                children: [
+                  Column(
+                    children: [
+                      SingleChildScrollView(
+                        controller: _leftPaneScrollController,
+                        child: Column(
+                          key: _childKey,
+                          children: children,
+                        ),
+                      ).paddingOnly(bottom: liteBottomPadding),
+                      Expanded(child: Container())
+                    ],
+                  ),
+                  if (isOutgoingOnly)
+                    Positioned(
+                      bottom: 6,
+                      left: 12,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: InkWell(
+                          child: Obx(
+                            () => Icon(
+                              Icons.settings,
+                              color: _editHover.value
+                                  ? textColor
+                                  : Colors.grey.withOpacity(0.5),
+                              size: 22,
+                            ),
+                          ),
+                          onTap: () => {
+                            if (DesktopSettingPage.tabKeys.isNotEmpty)
+                              {
+                                DesktopSettingPage.switch2page(
+                                    DesktopSettingPage.tabKeys[0])
+                              }
+                          },
+                          onHover: (value) => _editHover.value = value,
+                        ),
+                      ),
+                    )
+                ],
+              ),
       ),
     );
   }
@@ -426,6 +452,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   }
 
   Widget buildHelpCards(String updateUrl) {
+    if (kAppLite) {
+      return Container();
+    }
     if (!bind.isCustomClient() &&
         updateUrl.isNotEmpty &&
         !isCardClosed &&
@@ -849,6 +878,19 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         _updateWindowSize();
       });
     }
+    if (kAppLite) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _updateWindowSize();
+        if (isInHomePage()) {
+          final targetSize = getIncomingOnlyHomeSize();
+          windowManager.setSize(targetSize);
+          windowManager.setMinimumSize(targetSize);
+          windowManager.setMaximumSize(targetSize);
+          windowManager.center();
+          setResizable(false);
+        }
+      });
+    }
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -861,7 +903,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
       final size = renderObject.size;
       if (size != imcomingOnlyHomeSize) {
         imcomingOnlyHomeSize = size;
-        windowManager.setSize(getIncomingOnlyHomeSize());
+        final targetSize = getIncomingOnlyHomeSize();
+        windowManager.setSize(targetSize);
       }
     }
   }

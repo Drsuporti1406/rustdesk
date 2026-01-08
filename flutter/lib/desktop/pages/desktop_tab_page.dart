@@ -20,9 +20,6 @@ class DesktopTabPage extends StatefulWidget {
 
   static void onAddSetting(
       {SettingsTabKey initialPage = SettingsTabKey.general}) {
-    if (kAppLite) {
-      return;
-    }
     try {
       DesktopTabController tabController = Get.find<DesktopTabController>();
       tabController.add(TabInfo(
@@ -34,6 +31,17 @@ class DesktopTabPage extends StatefulWidget {
             key: const ValueKey(kTabLabelSettingPage),
             initialTabkey: initialPage,
           )));
+      tabController.jumpToByKey(kTabLabelSettingPage, callOnSelected: true);
+      if (kAppLite) {
+        Future.delayed(const Duration(milliseconds: 150), () {
+          final targetSize = getIncomingOnlySettingsSize();
+          windowManager.setSize(targetSize);
+          windowManager.setMinimumSize(targetSize);
+          windowManager.setMaximumSize(targetSize);
+          windowManager.center();
+          setResizable(true);
+        });
+      }
     } catch (e) {
       debugPrintStack(label: '$e');
     }
@@ -55,6 +63,36 @@ class _DesktopTabPageState extends State<DesktopTabPage> {
         page: DesktopHomePage(
           key: const ValueKey(kTabLabelHomePage),
         )));
+    if (kAppLite) {
+      tabController.onSelected = (key) {
+        if (key == kTabLabelHomePage) {
+          windowManager.setSize(getIncomingOnlyHomeSize());
+          windowManager.setMinimumSize(getIncomingOnlyHomeSize());
+          windowManager.setMaximumSize(getIncomingOnlyHomeSize());
+          setResizable(false);
+        } else {
+          final targetSize = getIncomingOnlySettingsSize();
+          windowManager.setSize(targetSize);
+          windowManager.setMinimumSize(targetSize);
+          windowManager.setMaximumSize(targetSize);
+          setResizable(true);
+          windowManager.center();
+          Future.delayed(const Duration(milliseconds: 50), () {
+            windowManager.setSize(targetSize);
+            windowManager.center();
+          });
+        }
+      };
+      tabController.onRemoved = (_, key) {
+        if (key == kTabLabelSettingPage) {
+          final targetSize = getIncomingOnlyHomeSize();
+          windowManager.setSize(targetSize);
+          windowManager.setMinimumSize(targetSize);
+          windowManager.setMaximumSize(targetSize);
+          setResizable(false);
+        }
+      };
+    }
     if (bind.isIncomingOnly()) {
       tabController.onSelected = (key) {
         if (key == kTabLabelHomePage) {

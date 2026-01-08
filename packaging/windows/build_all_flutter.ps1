@@ -2,7 +2,7 @@ param(
   [ValidateSet('full','lite')]
   [string]$Mode = 'full',
   [string]$Root = (Resolve-Path (Join-Path $PSScriptRoot '..\\..')).Path,
-  [string]$FlutterBin = 'C:\\Users\\Antonio\\flutter\\bin\\flutter.exe',
+  [string]$FlutterBin = '',
   [string]$WixBinPath = ''
 )
 
@@ -22,8 +22,20 @@ if ($Mode -eq 'lite') {
   $dartDefine = '--dart-define=APP_LITE=true'
 }
 
-if (!(Test-Path $FlutterBin)) {
-  throw "Flutter not found at: $FlutterBin"
+if (-not $FlutterBin) {
+  $flutterCmd = Get-Command flutter -ErrorAction SilentlyContinue
+  if ($flutterCmd) {
+    $FlutterBin = $flutterCmd.Path
+  } else {
+    $candidates = @(
+      'C:\\Users\\Antonio\\flutter\\bin\\flutter.bat',
+      'C:\\Users\\Antonio\\flutter\\bin\\flutter.exe'
+    )
+    $FlutterBin = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+  }
+}
+if (-not $FlutterBin -or !(Test-Path $FlutterBin)) {
+  throw "Flutter not found. Set -FlutterBin or add flutter to PATH."
 }
 
 Push-Location $Root

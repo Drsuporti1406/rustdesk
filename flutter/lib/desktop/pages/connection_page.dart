@@ -22,10 +22,16 @@ import '../../models/platform_model.dart';
 import '../../desktop/widgets/material_mod_popup_menu.dart' as mod_menu;
 
 class OnlineStatusWidget extends StatefulWidget {
-  const OnlineStatusWidget({Key? key, this.onSvcStatusChanged})
+  const OnlineStatusWidget(
+      {Key? key,
+      this.onSvcStatusChanged,
+      this.showSetupTip = true,
+      this.showStartService = true})
       : super(key: key);
 
   final VoidCallback? onSvcStatusChanged;
+  final bool showSetupTip;
+  final bool showStartService;
 
   @override
   State<OnlineStatusWidget> createState() => _OnlineStatusWidgetState();
@@ -67,7 +73,7 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
   Widget build(BuildContext context) {
     final isIncomingOnly = bind.isIncomingOnly();
     startServiceWidget() => Offstage(
-          offstage: !_svcStopped.value,
+          offstage: !_svcStopped.value || !widget.showStartService,
           child: InkWell(
                   onTap: () async {
                     await start_service(true);
@@ -80,7 +86,8 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
 
     setupServerWidget() => Flexible(
           child: Offstage(
-            offstage: !(!_svcStopped.value &&
+            offstage: !widget.showSetupTip ||
+                !(!_svcStopped.value &&
                 stateGlobal.svcStatus.value == SvcStatus.ready &&
                 _svcIsUsingPublicServer.value),
             child: Row(

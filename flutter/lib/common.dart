@@ -3613,7 +3613,7 @@ Widget loadPowered(BuildContext context) {
   ).marginOnly(top: 6);
 }
 
-// max 300 x 60
+// max 320 x 140
 Widget loadLogo() {
   return FutureBuilder<ByteData>(
       future: rootBundle.load('assets/logo.png'),
@@ -3627,7 +3627,7 @@ Widget loadLogo() {
             },
           );
           return Container(
-            constraints: BoxConstraints(maxWidth: 300, maxHeight: 60),
+            constraints: BoxConstraints(maxWidth: 320, maxHeight: 140),
             child: image,
           ).marginOnly(left: 12, right: 12, top: 12);
         }
@@ -3650,11 +3650,15 @@ var imcomingOnlyHomeSize = Size(280, 300);
 Size getIncomingOnlyHomeSize() {
   final magicWidth = isWindows ? 11.0 : 2.0;
   final magicHeight = 10.0;
+  final liteExtraHeight = kAppLite ? 120.0 : 0.0;
   return imcomingOnlyHomeSize +
-      Offset(magicWidth, kDesktopRemoteTabBarHeight + magicHeight);
+      Offset(magicWidth, kDesktopRemoteTabBarHeight + magicHeight + liteExtraHeight);
 }
 
 Size getIncomingOnlySettingsSize() {
+  if (kAppLite) {
+    return Size(1000, 720);
+  }
   return Size(768, 600);
 }
 
