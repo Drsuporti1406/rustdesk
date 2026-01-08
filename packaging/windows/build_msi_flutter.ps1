@@ -4,7 +4,7 @@ param(
   # Optional explicit WiX bin folder (where candle.exe/light.exe/heat.exe live).
   [string]$WixBinPath = '',
   [string]$ProductName = 'DrSuporti Remote Tecnico',
-  [string]$ProductId = 'DrSuportiRemoteTecnico',
+  [string]$ProductId = '',
   [string]$InstallFolderName = 'DrSuporti Remote Tecnico',
   [string]$OutputBaseName = 'DrSuportiRemoteTecnico'
 )
@@ -17,6 +17,10 @@ $releaseDir = Join-Path $Root 'flutter\\build\\windows\\x64\\runner\\Release'
 
 if (!(Test-Path $releaseDir)) {
   throw "Flutter Release folder not found at: $releaseDir. Run: flutter build windows --release"
+}
+
+if (-not $ProductId) {
+  $ProductId = $ProductName
 }
 
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null

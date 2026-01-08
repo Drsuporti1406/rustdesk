@@ -9,14 +9,14 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $productName = 'DrSuporti Remote Tecnico'
-$productId = 'DrSuportiRemoteTecnico'
+$productId = $productName
 $installFolder = 'DrSuporti Remote Tecnico'
 $outputBase = 'DrSuportiRemoteTecnico'
 $dartDefine = ''
 
 if ($Mode -eq 'lite') {
   $productName = 'DrSuporti Remote Cliente'
-  $productId = 'DrSuportiRemoteCliente'
+  $productId = $productName
   $installFolder = 'DrSuporti Remote Cliente'
   $outputBase = 'DrSuportiRemoteCliente'
   $dartDefine = '--dart-define=APP_LITE=true'
@@ -38,8 +38,9 @@ if (-not $FlutterBin -or !(Test-Path $FlutterBin)) {
   throw "Flutter not found. Set -FlutterBin or add flutter to PATH."
 }
 
-Push-Location $Root
-try {
+  Push-Location $Root
+  try {
+  $env:RUSTDESK_APP_NAME = $productName
   & cargo build -p rustdesk --lib --release --features flutter
   if ($LASTEXITCODE -ne 0) { throw "cargo build failed" }
 

@@ -19,6 +19,8 @@ case "$MODE" in
     DART_DEFINE=""
     ;;
 esac
+
+export RUSTDESK_APP_NAME="$APP"
 FLUTTER_DIR="$ROOT/flutter"
 BUNDLE="$FLUTTER_DIR/build/linux/x64/release/bundle"
 STAGE="/tmp/pkg-$ID"
