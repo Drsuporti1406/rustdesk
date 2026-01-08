@@ -2,7 +2,11 @@ param(
   [string]$Root = (Resolve-Path (Join-Path $PSScriptRoot '..\\..')).Path,
 
   # Optional explicit WiX bin folder (where candle.exe/light.exe/heat.exe live).
-  [string]$WixBinPath = ''
+  [string]$WixBinPath = '',
+  [string]$ProductName = 'DrSuporti Remote Tecnico',
+  [string]$ProductId = 'DrSuportiRemoteTecnico',
+  [string]$InstallFolderName = 'DrSuporti Remote Tecnico',
+  [string]$OutputBaseName = 'DrSuportiRemoteTecnico'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -30,27 +34,30 @@ $removeVbs = Join-Path $pkgDir 'remove_shortcuts.vbs'
 @'
 Set ws = CreateObject("WScript.Shell")
 Set fso = CreateObject("Scripting.FileSystemObject")
-sm = ws.ExpandEnvironmentStrings("%ProgramData%") & "\Microsoft\Windows\Start Menu\Programs\DrSuporti Remote"
+sm = ws.ExpandEnvironmentStrings("%ProgramData%") & "\Microsoft\Windows\Start Menu\Programs\__PRODUCT_NAME__"
 If Not fso.FolderExists(sm) Then fso.CreateFolder(sm)
-Set lnk = ws.CreateShortcut(sm & "\DrSuporti Remote.lnk")
-lnk.TargetPath = ws.ExpandEnvironmentStrings("%ProgramFiles%") & "\DrSuporti Remote\rustdesk.exe"
-lnk.WorkingDirectory = ws.ExpandEnvironmentStrings("%ProgramFiles%") & "\DrSuporti Remote"
+Set lnk = ws.CreateShortcut(sm & "\__PRODUCT_NAME__.lnk")
+lnk.TargetPath = ws.ExpandEnvironmentStrings("%ProgramFiles%") & "\__INSTALL_FOLDER__\rustdesk.exe"
+lnk.WorkingDirectory = ws.ExpandEnvironmentStrings("%ProgramFiles%") & "\__INSTALL_FOLDER__"
 lnk.IconLocation = lnk.TargetPath
 lnk.Save
-desk = ws.ExpandEnvironmentStrings("%Public%") & "\Desktop\DrSuporti Remote.lnk"
+desk = ws.ExpandEnvironmentStrings("%Public%") & "\Desktop\__PRODUCT_NAME__.lnk"
 Set lnk2 = ws.CreateShortcut(desk)
 lnk2.TargetPath = lnk.TargetPath
 lnk2.WorkingDirectory = lnk.WorkingDirectory
 lnk2.IconLocation = lnk.TargetPath
 lnk2.Save
 '@ | Set-Content -LiteralPath $createVbs -Encoding Ascii
+((Get-Content -LiteralPath $createVbs) -replace '__PRODUCT_NAME__', $ProductName `
+  -replace '__INSTALL_FOLDER__', $InstallFolderName) | Set-Content -LiteralPath $createVbs -Encoding Ascii
 @'
 Set fso = CreateObject("Scripting.FileSystemObject")
-sm = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%ProgramData%") & "\Microsoft\Windows\Start Menu\Programs\DrSuporti Remote\DrSuporti Remote.lnk"
-desk = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%Public%") & "\Desktop\DrSuporti Remote.lnk"
+sm = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%ProgramData%") & "\Microsoft\Windows\Start Menu\Programs\__PRODUCT_NAME__\__PRODUCT_NAME__.lnk"
+desk = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%Public%") & "\Desktop\__PRODUCT_NAME__.lnk"
 If fso.FileExists(sm) Then fso.DeleteFile(sm)
 If fso.FileExists(desk) Then fso.DeleteFile(desk)
 '@ | Set-Content -LiteralPath $removeVbs -Encoding Ascii
+((Get-Content -LiteralPath $removeVbs) -replace '__PRODUCT_NAME__', $ProductName) | Set-Content -LiteralPath $removeVbs -Encoding Ascii
 
 # Ensure installer has a stable icon for ARP + shortcuts.
 $pkgIconIco = Join-Path $pkgDir 'icon.ico'
@@ -144,11 +151,11 @@ try {
     throw "Failed to remove rustdesk.exe from Harvest.wxs. Clean the file or rerun."
   }
 
-  & candle.exe -arch x64 Product_flutter.wxs Harvest.wxs "-dProductVersion=$productVersion" "-dBuildDate=$buildDate" "-dSourceDir=$pkgDir" -out ".\\" | Tee-Object -FilePath candle_output_flutter.txt | Out-Null
+  & candle.exe -arch x64 Product_flutter.wxs Harvest.wxs "-dProductVersion=$productVersion" "-dBuildDate=$buildDate" "-dSourceDir=$pkgDir" "-dProductName=$ProductName" "-dProductId=$ProductId" "-dInstallFolderName=$InstallFolderName" -out ".\\" | Tee-Object -FilePath candle_output_flutter.txt | Out-Null
   if ($LASTEXITCODE -ne 0) { throw "candle.exe failed with exit code $LASTEXITCODE. See: $(Join-Path $PSScriptRoot 'candle_output_flutter.txt')" }
 
-  $msiFinal = (Join-Path $outDir 'DrSuportiRemote.msi')
-  $msiTmp = (Join-Path $outDir 'DrSuportiRemote.tmp.msi')
+  $msiFinal = (Join-Path $outDir ("{0}.msi" -f $OutputBaseName))
+  $msiTmp = (Join-Path $outDir ("{0}.tmp.msi" -f $OutputBaseName))
   Remove-Item -Force -ErrorAction SilentlyContinue $msiTmp
 
   & light.exe Product_flutter.wixobj Harvest.wixobj -out $msiTmp | Tee-Object -FilePath light_output_flutter.txt | Out-Null
@@ -160,7 +167,7 @@ try {
     }
     Move-Item -Force $msiTmp $msiFinal
   } catch {
-    $msiVersioned = (Join-Path $outDir ("DrSuportiRemote-{0}.msi" -f $productVersion))
+    $msiVersioned = (Join-Path $outDir ("{0}-{1}.msi" -f $OutputBaseName, $productVersion))
     Move-Item -Force $msiTmp $msiVersioned
     throw "Failed to replace existing MSI at $msiFinal (it may be in use). A versioned MSI was written to: $msiVersioned"
   }
@@ -168,4 +175,4 @@ try {
   Pop-Location
 }
 
-Write-Host ("MSI generated: {0}" -f (Join-Path $outDir 'DrSuportiRemote.msi'))
+Write-Host ("MSI generated: {0}" -f (Join-Path $outDir ("{0}.msi" -f $OutputBaseName)))

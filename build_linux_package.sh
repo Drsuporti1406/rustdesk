@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP="DrSuporti Remote"
-ID="drsuporti-remote"
+MODE="${APP_MODE:-full}" # full or lite
 VERSION="1.4.4.1"
 ROOT="$(pwd)"
 ICON="$ROOT/src/logo.png"
 FLUTTER_BIN="/root/flutter/bin/flutter"
+
+case "$MODE" in
+  lite)
+    APP="DrSuporti Remote Cliente"
+    ID="drsuporti-remote-cliente"
+    DART_DEFINE="--dart-define=APP_LITE=true"
+    ;;
+  full|*)
+    APP="DrSuporti Remote Tecnico"
+    ID="drsuporti-remote-tecnico"
+    DART_DEFINE=""
+    ;;
+esac
 FLUTTER_DIR="$ROOT/flutter"
 BUNDLE="$FLUTTER_DIR/build/linux/x64/release/bundle"
 STAGE="/tmp/pkg-$ID"
@@ -27,7 +39,7 @@ VCPKG_ROOT=/opt/vcpkg VCPKG_INSTALLED_ROOT="$ROOT/vcpkg_installed" \
 
 # 3) Build Flutter
 cd "$FLUTTER_DIR"
-"$FLUTTER_BIN" build linux --release
+"$FLUTTER_BIN" build linux --release $DART_DEFINE
 
 # 4) Preparar stage
 rm -rf "$STAGE"

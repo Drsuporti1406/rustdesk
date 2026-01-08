@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <Bundle Name="DrSuporti Remote"
+  <Bundle Name="$(var.BundleName)"
           Version="$(var.ProductVersion)"
           Manufacturer="DrSuporti"
           UpgradeCode="{5A4A1E1C-2D2B-4D0D-8F79-0123456789AB}"

@@ -196,6 +196,7 @@ const String kUrlActionClose = "close";
 
 const String kTabLabelHomePage = "Home";
 const String kTabLabelSettingPage = "Settings";
+const bool kAppLite = bool.fromEnvironment('APP_LITE', defaultValue: false);
 
 const String kWindowPrefix = "wm_";
 const int kWindowMainId = 0;

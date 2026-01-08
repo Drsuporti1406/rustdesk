@@ -2,19 +2,24 @@ param(
   [string]$Root = (Resolve-Path (Join-Path $PSScriptRoot '..\\..')).Path,
 
   # Optional explicit WiX bin folder (where candle.exe/light.exe live).
-  [string]$WixBinPath = ''
+  [string]$WixBinPath = '',
+  [string]$MsiPath = '',
+  [string]$BundleName = 'DrSuporti Remote Tecnico',
+  [string]$OutputBaseName = 'DrSuportiRemoteTecnico'
 )
 
 $ErrorActionPreference = 'Stop'
 
 $outDir = Join-Path $PSScriptRoot 'output'
-$msiPath = Join-Path $outDir 'DrSuportiRemote.msi'
+if (-not $MsiPath) {
+  $MsiPath = Join-Path $outDir ("{0}.msi" -f $OutputBaseName)
+}
 $vcRedistPath = Join-Path $PSScriptRoot 'third_party\\vc_redist.x64.exe'
 $licensePath = Join-Path $PSScriptRoot 'license.rtf'
 $bundleIconPath = Join-Path $PSScriptRoot 'package_flutter\\icon.ico'
 
-if (!(Test-Path $msiPath)) {
-  throw "MSI not found at: $msiPath. Build it first with build_msi_flutter.ps1"
+if (!(Test-Path $MsiPath)) {
+  throw "MSI not found at: $MsiPath. Build it first with build_msi_flutter.ps1"
 }
 if (!(Test-Path $vcRedistPath)) {
   throw "VC++ Redistributable not found at: $vcRedistPath. Download vc_redist.x64.exe and place it there."
@@ -68,11 +73,11 @@ try {
   if (-not $candle) { throw "candle.exe (WiX) not found in PATH" }
   if (-not $light) { throw "light.exe (WiX) not found in PATH" }
 
-  & candle.exe Bundle_flutter.wxs "-dProductVersion=$productVersion" "-dVcRedistPath=$vcRedistPath" "-dMsiPath=$msiPath" "-dBundleIconPath=$bundleIconPath" -out ".\\" -ext WixBalExtension -ext WixUtilExtension | Tee-Object -FilePath candle_output_bundle.txt | Out-Null
+  & candle.exe Bundle_flutter.wxs "-dProductVersion=$productVersion" "-dVcRedistPath=$vcRedistPath" "-dMsiPath=$MsiPath" "-dBundleIconPath=$bundleIconPath" "-dBundleName=$BundleName" -out ".\\" -ext WixBalExtension -ext WixUtilExtension | Tee-Object -FilePath candle_output_bundle.txt | Out-Null
   if ($LASTEXITCODE -ne 0) { throw "candle.exe failed with exit code $LASTEXITCODE. See: $(Join-Path $PSScriptRoot 'candle_output_bundle.txt')" }
 
-  $bundleTmp = (Join-Path $outDir 'DrSuportiRemote.bundle.tmp.exe')
-  $bundleFinal = (Join-Path $outDir 'DrSuportiRemote-setup.exe')
+  $bundleTmp = (Join-Path $outDir ("{0}.bundle.tmp.exe" -f $OutputBaseName))
+  $bundleFinal = (Join-Path $outDir ("{0}-setup.exe" -f $OutputBaseName))
   Remove-Item -Force -ErrorAction SilentlyContinue $bundleTmp
 
   & light.exe Bundle_flutter.wixobj -out $bundleTmp -ext WixBalExtension -ext WixUtilExtension | Tee-Object -FilePath light_output_bundle.txt | Out-Null
@@ -84,4 +89,4 @@ try {
   Pop-Location
 }
 
-Write-Host ("Bundle generated: {0}" -f (Join-Path $outDir 'DrSuportiRemote-setup.exe'))
+Write-Host ("Bundle generated: {0}" -f (Join-Path $outDir ("{0}-setup.exe" -f $OutputBaseName)))

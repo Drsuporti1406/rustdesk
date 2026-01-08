@@ -20,6 +20,9 @@ class DesktopTabPage extends StatefulWidget {
 
   static void onAddSetting(
       {SettingsTabKey initialPage = SettingsTabKey.general}) {
+    if (kAppLite) {
+      return;
+    }
     try {
       DesktopTabController tabController = Get.find<DesktopTabController>();
       tabController.add(TabInfo(
@@ -97,7 +100,7 @@ class _DesktopTabPageState extends State<DesktopTabPage> {
             body: DesktopTab(
               controller: tabController,
               tail: Offstage(
-                offstage: bind.isIncomingOnly() || bind.isDisableSettings(),
+                offstage: kAppLite || bind.isIncomingOnly() || bind.isDisableSettings(),
                 child: ActionIcon(
                   message: 'Settings',
                   icon: IconFont.menu,

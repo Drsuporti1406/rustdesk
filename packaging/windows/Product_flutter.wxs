@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="DrSuporti Remote" Language="1033" Version="$(var.ProductVersion)" Manufacturer="DrSuporti" UpgradeCode="{E3A9B3D6-3C1A-4E6A-8F6C-0123456789AB}">
+  <Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="DrSuporti" UpgradeCode="{E3A9B3D6-3C1A-4E6A-8F6C-0123456789AB}">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64"/>
 
     <MajorUpgrade
-      DowngradeErrorMessage="A newer version of DrSuporti Remote is already installed."
+      DowngradeErrorMessage="A newer version of $(var.ProductName) is already installed."
       AllowSameVersionUpgrades="yes"
       Schedule="afterInstallInitialize"
     />
@@ -57,10 +57,10 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFiles64Folder">
-        <Directory Id="INSTALLFOLDER" Name="DrSuporti Remote"/>
+        <Directory Id="INSTALLFOLDER" Name="$(var.InstallFolderName)"/>
       </Directory>
       <Directory Id="CommonProgramsFolder">
-        <Directory Id="ApplicationProgramsFolder" Name="DrSuporti Remote"/>
+        <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)"/>
       </Directory>
       <Directory Id="CommonDesktopFolder"/>
     </Directory>
@@ -96,18 +96,18 @@
       </Component>
       <Component Id="cmp_install_location" Guid="*" Win64="yes">
         <RegistryValue Root="HKLM"
-                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\$(var.ProductId)"
                        Name="InstallLocation"
                        Type="string"
                        Value="[INSTALLFOLDER]"
                        KeyPath="yes"/>
         <RegistryValue Root="HKLM"
-                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\$(var.ProductId)"
                        Name="DisplayIcon"
                        Type="string"
                        Value="&quot;[INSTALLFOLDER]icon.ico&quot;"/>
         <RegistryValue Root="HKLM"
-                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\DrSuporti Remote"
+                       Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\$(var.ProductId)"
                        Name="BuildDate"
                        Type="string"
                        Value="$(var.BuildDate)"/>
@@ -116,14 +116,14 @@
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="cmp_shortcuts_menu" Guid="{33333333-3333-3333-3333-333333333333}" Win64="yes">
         <Shortcut Id="sc_start_menu"
-                  Name="DrSuporti Remote"
-                  Description="DrSuporti Remote"
+                  Name="$(var.ProductName)"
+                  Description="$(var.ProductName)"
                   Target="[INSTALLFOLDER]rustdesk.exe"
                   WorkingDirectory="INSTALLFOLDER"
                   Icon="AppIcon" />
         <RemoveFolder Id="rm_start_menu" Directory="ApplicationProgramsFolder" On="uninstall" />
         <RegistryValue Root="HKLM"
-                       Key="Software\DrSuporti Remote"
+                       Key="Software\$(var.ProductId)"
                        Name="StartMenuShortcut"
                        Type="integer"
                        Value="1"
@@ -133,13 +133,13 @@
     <DirectoryRef Id="CommonDesktopFolder">
       <Component Id="cmp_shortcuts_desktop" Guid="{33333333-3333-3333-3333-333333333334}" Win64="yes">
         <Shortcut Id="sc_desktop"
-                  Name="DrSuporti Remote"
-                  Description="DrSuporti Remote"
+                  Name="$(var.ProductName)"
+                  Description="$(var.ProductName)"
                   Target="[INSTALLFOLDER]rustdesk.exe"
                   WorkingDirectory="INSTALLFOLDER"
                   Icon="AppIcon" />
         <RegistryValue Root="HKLM"
-                       Key="Software\DrSuporti Remote"
+                       Key="Software\$(var.ProductId)"
                        Name="DesktopShortcut"
                        Type="integer"
                        Value="1"
