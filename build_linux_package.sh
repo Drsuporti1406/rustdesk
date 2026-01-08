@@ -1,24 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
-FLUTTER_BIN="/root/""/bin/"""
+
 APP="DrSuporti Remote"
-FLUTTER_BIN="/root/""/bin/"""
 ID="drsuporti-remote"
-VERSION="1.4.4.0"
+VERSION="1.4.4.1"
 ICON="/root/rustdesk/src/logo.png"
+FLUTTER_BIN="/root/flutter/bin/flutter"
 
 ROOT="/root/rustdesk"
-FLUTTER_DIR="$ROOT/"""
+FLUTTER_DIR="$ROOT/flutter"
 BUNDLE="$FLUTTER_DIR/build/linux/x64/release/bundle"
 STAGE="/tmp/pkg-$ID"
 
+export PATH="/root/flutter/bin:$PATH"
+
+# 0) Flutter deps
+cd "$FLUTTER_DIR"
+"$FLUTTER_BIN" pub get
+
 # 1) Gerar bridge
 cd "$ROOT"
-flutter_rust_bridge_codegen --rust-input ./src/flutter_ffi.rs --dart-output ./""/lib/generated_bridge.dart
+flutter_rust_bridge_codegen --rust-input ./src/flutter_ffi.rs --dart-output ./flutter/lib/generated_bridge.dart
 
 # 2) Build Rust (Flutter lib)
 VCPKG_ROOT=/opt/vcpkg VCPKG_INSTALLED_ROOT="$ROOT/vcpkg_installed" \
-  cargo build -p rustdesk --lib --release --features ""
+  cargo build -p rustdesk --lib --release --features flutter
 
 # 3) Build Flutter
 cd "$FLUTTER_DIR"
