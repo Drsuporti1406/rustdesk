@@ -4,10 +4,9 @@ set -euo pipefail
 APP="DrSuporti Remote"
 ID="drsuporti-remote"
 VERSION="1.4.4.1"
-ICON="/root/rustdesk/src/logo.png"
+ROOT="$(pwd)"
+ICON="$ROOT/src/logo.png"
 FLUTTER_BIN="/root/flutter/bin/flutter"
-
-ROOT="/root/rustdesk"
 FLUTTER_DIR="$ROOT/flutter"
 BUNDLE="$FLUTTER_DIR/build/linux/x64/release/bundle"
 STAGE="/tmp/pkg-$ID"
