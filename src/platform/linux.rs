@@ -1806,6 +1806,10 @@ pub fn install_service() -> bool {
     true
 }
 
+pub fn install_service_silent() -> bool {
+    install_service()
+}
+
 fn check_if_stop_service() {
     if Config::get_option("stop-service".into()) == "Y" {
         let app_name = crate::get_app_name().to_lowercase();
