@@ -3613,21 +3613,24 @@ Widget loadPowered(BuildContext context) {
   ).marginOnly(top: 6);
 }
 
-// max 320 x 140
+// max 180 x 72 (theme-aware)
 Widget loadLogo() {
   return FutureBuilder<ByteData>(
       future: rootBundle.load('assets/logo.png'),
       builder: (BuildContext context, AsyncSnapshot<ByteData> snapshot) {
         if (snapshot.hasData) {
+          final isDark = Theme.of(context).brightness == Brightness.dark;
+          final logoAsset =
+              isDark ? 'assets/logo_dark.png' : 'assets/logo_light.png';
           final image = Image.asset(
-            'assets/logo.png',
+            logoAsset,
             fit: BoxFit.contain,
             errorBuilder: (ctx, error, stackTrace) {
               return Container();
             },
           );
           return Container(
-            constraints: BoxConstraints(maxWidth: 320, maxHeight: 140),
+            constraints: BoxConstraints(maxWidth: 180, maxHeight: 72),
             child: image,
           ).marginOnly(left: 12, right: 12, top: 12);
         }
@@ -3650,7 +3653,7 @@ var imcomingOnlyHomeSize = Size(280, 300);
 Size getIncomingOnlyHomeSize() {
   final magicWidth = isWindows ? 11.0 : 2.0;
   final magicHeight = 10.0;
-  final liteExtraHeight = kAppLite ? 120.0 : 0.0;
+  final liteExtraHeight = kAppLite ? 180.0 : 0.0;
   return imcomingOnlyHomeSize +
       Offset(magicWidth, kDesktopRemoteTabBarHeight + magicHeight + liteExtraHeight);
 }

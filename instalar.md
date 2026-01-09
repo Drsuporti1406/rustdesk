@@ -1,9 +1,8 @@
 Windows (um comando)
 Completa (DrSuporti Remote Tecnico):
-
 powershell -ExecutionPolicy Bypass -File packaging/windows/build_all_flutter.ps1 -Mode full
-Lite (DrSuporti Remote Cliente):
 
+Lite (DrSuporti Remote Cliente):
 powershell -ExecutionPolicy Bypass -File packaging/windows/build_all_flutter.ps1 -Mode lite
 
 
